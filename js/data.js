@@ -37,7 +37,7 @@ window.PORTFOLIO = {
       title: "Proyecto 01", // TODO: título real de Behance
       category: "Product Design",
       year: "2026",
-      cover: "",
+      cover: "assets/img/cover-01.svg", // provisoria: reemplazar por imagen de Behance
       tone: "#d9d4cc",
       url: "https://www.behance.net/iggrandon3ec1",
       summary: "Descripción breve del proyecto, el problema y el resultado.",
@@ -46,7 +46,7 @@ window.PORTFOLIO = {
       title: "Proyecto 02",
       category: "Design System",
       year: "2025",
-      cover: "",
+      cover: "assets/img/cover-02.svg", // provisoria: reemplazar por imagen de Behance
       tone: "#c9cfd4",
       url: "https://www.behance.net/iggrandon3ec1",
       summary: "Descripción breve del proyecto, el problema y el resultado.",
@@ -55,7 +55,7 @@ window.PORTFOLIO = {
       title: "Proyecto 03",
       category: "UX Research",
       year: "2025",
-      cover: "",
+      cover: "assets/img/cover-03.svg", // provisoria: reemplazar por imagen de Behance
       tone: "#d6cfc4",
       url: "https://www.behance.net/iggrandon3ec1",
       summary: "Descripción breve del proyecto, el problema y el resultado.",
@@ -64,7 +64,7 @@ window.PORTFOLIO = {
       title: "Proyecto 04",
       category: "UI Design",
       year: "2024",
-      cover: "",
+      cover: "assets/img/cover-04.svg", // provisoria: reemplazar por imagen de Behance
       tone: "#cdd2c8",
       url: "https://www.behance.net/iggrandon3ec1",
       summary: "Descripción breve del proyecto, el problema y el resultado.",
