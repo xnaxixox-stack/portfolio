@@ -73,6 +73,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     var(--duo-a);
 }
 .hero__bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; display: block; }
+/* Degradado inferior: el fondo animado se disuelve en el color de la página */
+.hero::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 45%; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+}
 .hero .eyebrow, .hero__scroll { color: var(--muted); }
 .hero__scroll:hover { color: var(--fg); }
 .eyebrow {
@@ -91,6 +96,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero__scroll { font-size: 14px; }
 
 /* Sections */
+.hero + .section::before { display: none; }
 .section { padding: 96px var(--gutter); border-top: 1px solid var(--line); }
 .section h2 { font-size: 14px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .section__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
