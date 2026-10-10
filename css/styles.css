@@ -43,7 +43,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* Nav */
 .nav {
-  position: sticky; top: 0; z-index: 10;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
   display: flex; justify-content: space-between; align-items: center;
   padding: 20px var(--gutter);
   background: color-mix(in srgb, var(--bg) 85%, transparent);
@@ -57,9 +57,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* Hero */
 .hero {
-  min-height: 82vh;
   display: flex; flex-direction: column; justify-content: center; gap: 32px;
-  padding: 0 var(--gutter);
+  padding: clamp(64px, 14vw, 180px) var(--gutter) clamp(64px, 10vw, 140px);
 }
 .eyebrow {
   display: flex; align-items: center; gap: 8px;
@@ -148,10 +147,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 
 /* Reveal */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
-.reveal.is-visible { opacity: 1; transform: none; }
+@keyframes rise { from { transform: translateY(16px); } to { transform: none; } }
+.reveal.is-visible { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal.is-visible { animation: none; }
   html { scroll-behavior: auto; }
 }
 
