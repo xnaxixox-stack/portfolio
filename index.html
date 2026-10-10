@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portafolio — Product Designer</title>
+    <meta name="description" content="Portafolio de diseño de producto." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a href="#top" class="nav__brand" data-bind="name"></a>
+      <nav class="nav__links">
+        <a href="#work">Trabajo</a>
+        <a href="#about">Sobre mí</a>
+        <a href="#contact">Contacto</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema">◐</button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <p class="eyebrow">
+          <span class="dot"></span>
+          <span data-bind="role"></span> · <span data-bind="location"></span>
+        </p>
+        <h1 class="hero__title" data-bind="headline"></h1>
+        <a href="#work" class="hero__scroll">Ver trabajo ↓</a>
+      </section>
+
+      <section id="work" class="section">
+        <div class="section__head">
+          <h2>Trabajo seleccionado</h2>
+          <div class="view-switch" role="tablist">
+            <button type="button" data-view="grid" class="is-active">Grid</button>
+            <button type="button" data-view="list">Índice</button>
+          </div>
+        </div>
+        <div class="projects projects--grid" id="projects"></div>
+      </section>
+
+      <section id="about" class="section about">
+        <h2>Sobre mí</h2>
+        <div class="about__body">
+          <div id="about-text"></div>
+          <ul class="tags" id="skills"></ul>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact">
+        <p class="eyebrow">¿Trabajamos juntos?</p>
+        <a class="contact__mail" id="mail"></a>
+        <ul class="contact__links" id="links"></ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> <span data-bind="name"></span></span>
+      <a href="#top">Volver arriba ↑</a>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
