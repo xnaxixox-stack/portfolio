@@ -171,6 +171,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transition: background-size 0.5s, color 0.3s;
 }
 .contact__mail:hover { color: var(--accent); background-size: 100% 1px; }
+.contact__copy {
+  display: block; margin: -8px 0 32px; font-size: 13px; color: var(--muted);
+  border-bottom: 1px solid currentColor; padding-bottom: 1px;
+}
+.contact__copy:hover { color: var(--fg); }
+.contact__copy:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
 .contact__links { list-style: none; display: flex; gap: 24px; font-size: 14px; }
 .contact__links a:hover { color: var(--accent); }
 

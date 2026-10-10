@@ -63,6 +63,26 @@
   const mail = document.getElementById("mail");
   mail.href = `mailto:${profile.links.email}`;
   mail.textContent = profile.links.email;
+  // Copiar el correo (por si el cliente de correo no se abre con mailto:)
+  const copyBtn = document.getElementById("copy-mail");
+  copyBtn.addEventListener("click", () => {
+    const done = () => {
+      copyBtn.textContent = "Correo copiado";
+      setTimeout(() => (copyBtn.textContent = "Copiar correo"), 2000);
+    };
+    const selectText = () => {
+      const range = document.createRange();
+      range.selectNodeContents(mail);
+      const sel = getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(profile.links.email).then(done, selectText);
+    } else {
+      selectText();
+    }
+  });
   const labels = { behance: "Behance", linkedin: "LinkedIn" };
   document.getElementById("links").innerHTML = Object.entries(labels)
     .filter(([k]) => profile.links[k])

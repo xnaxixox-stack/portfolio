@@ -22,7 +22,7 @@ window.PORTFOLIO = {
       "Vue 3",
     ],
     links: {
-      email: "xnaxixox@gmail.com",
+      email: "ig.grandon@gmail.com",
       behance: "https://www.behance.net/iggrandon3ec1",
       linkedin: "", // TODO
     },
