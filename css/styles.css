@@ -123,6 +123,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .project__year { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
 /* About */
+.about__aside { display: grid; gap: 24px; align-content: start; }
+.about__photo { width: 100%; max-width: 320px; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; filter: grayscale(1); }
 .about { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; }
 .about__body p { font-size: clamp(20px, 2.2vw, 28px); line-height: 1.4; letter-spacing: -0.01em; margin-bottom: 20px; max-width: 34ch; }
 .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
@@ -169,5 +171,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .featured { gap: 72px; }
   .case__details { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
+  .about__photo { max-width: 240px; }
   .section { padding-block: 64px; }
 }
