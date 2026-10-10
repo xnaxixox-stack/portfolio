@@ -40,7 +40,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body {
   background: var(--bg);
   color: var(--fg);
@@ -52,12 +52,20 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 
 /* Nav */
+/* El header flota sobre el hero: transparente arriba del todo y con fondo
+   al hacer scroll (main.js le pone .is-scrolled) */
 .nav {
-  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 10;
   display: flex; justify-content: space-between; align-items: center;
   padding: 20px var(--gutter);
+  background: transparent;
+  transition: background-color 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
+}
+.nav.is-scrolled {
   background: color-mix(in srgb, var(--bg) 85%, transparent);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 var(--line);
 }
 .nav__brand { font-weight: 600; letter-spacing: -0.01em; }
 .nav__links { display: flex; gap: 24px; align-items: center; font-size: 14px; }

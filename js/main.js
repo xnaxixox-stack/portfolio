@@ -85,6 +85,12 @@
     } catch (e) {}
   });
 
+  // Header: transparente arriba del todo, con fondo al hacer scroll
+  const nav = document.querySelector(".nav");
+  const updateNav = () => nav.classList.toggle("is-scrolled", window.scrollY > 8);
+  window.addEventListener("scroll", updateNav, { passive: true });
+  updateNav();
+
   // Hero: separa el titular en palabras para animarlas una a una
   const title = document.querySelector(".hero__title");
   title.innerHTML = title.textContent
