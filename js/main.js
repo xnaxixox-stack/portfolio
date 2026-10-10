@@ -85,19 +85,69 @@
     } catch (e) {}
   });
 
-  // Aparición suave al hacer scroll
-  const io = new IntersectionObserver(
-    (entries) =>
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add("is-visible");
-          io.unobserve(e.target);
-        }
-      }),
-    { threshold: 0.12 }
-  );
-  document.querySelectorAll(".case, .project, .section h2, .about__body, .contact").forEach((el) => {
-    el.classList.add("reveal");
-    io.observe(el);
+  // Hero: separa el titular en palabras para animarlas una a una
+  const title = document.querySelector(".hero__title");
+  title.innerHTML = title.textContent
+    .split(" ")
+    .map((w, i) => `<span class="w"><span style="--i:${i}">${w}</span></span>`)
+    .join(" ");
+
+  // Aparición al hacer scroll
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const groups = [
+    // [selector, clase, retraso entre elementos hermanos en ms]
+    [".section", null, 0],
+    [".section h2", "reveal", 0],
+    [".case__cover, .case__details img, .project__media, .about__photo", "reveal-img", 120],
+    [".case__meta, .case__title, .case__summary, .case__highlights li, .case__info .tags, .case__link", "reveal", 70],
+    [".project__meta", "reveal", 120],
+    ["#about-text p, #skills", "reveal", 120],
+    [".contact > *", "reveal", 100],
+  ];
+  const targets = [];
+  groups.forEach(([sel, cls, step]) => {
+    document.querySelectorAll(sel).forEach((el) => {
+      if (cls) el.classList.add(cls);
+      // Retraso escalonado según la posición entre sus hermanos del mismo grupo
+      const siblings = [...el.parentElement.children].filter((c) => c.matches(sel));
+      const i = siblings.indexOf(el);
+      if (step && i > 0) el.style.setProperty("--d", `${Math.min(i, 6) * step}ms`);
+      targets.push(el);
+    });
   });
+  // Los detalles de un caso y las tarjetas de proyecto se escalonan por posición
+  document.querySelectorAll(".case__details img").forEach((el, i) => el.style.setProperty("--d", `${(i % 2) * 140}ms`));
+  document.querySelectorAll(".project").forEach((card, i) => {
+    const d = `${(i % 3) * 120}ms`;
+    card.querySelectorAll(".project__media, .project__meta").forEach((el) => el.style.setProperty("--d", d));
+  });
+
+  if (!reduce && "IntersectionObserver" in window) {
+    // Las imágenes ocultas con clip-path no tienen área visible, así que se
+    // observa su contenedor y al entrar se revelan todos los elementos asociados.
+    const byTrigger = new Map();
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          byTrigger.get(e.target).forEach((el) => {
+            el.classList.remove("is-pending");
+            el.classList.add("is-visible");
+          });
+          io.unobserve(e.target);
+        }),
+      { threshold: 0, rootMargin: "0px 0px -12% 0px" }
+    );
+    // Solo se ocultan los que empiezan fuera de pantalla; lo visible al cargar queda tal cual
+    targets.forEach((el) => {
+      if (el.getBoundingClientRect().top <= innerHeight) return;
+      const trigger = el.classList.contains("reveal-img") ? el.parentElement : el;
+      if (!byTrigger.has(trigger)) {
+        byTrigger.set(trigger, []);
+        io.observe(trigger);
+      }
+      byTrigger.get(trigger).push(el);
+      el.classList.add("is-pending");
+    });
+  }
 })();

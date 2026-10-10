@@ -149,12 +149,46 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-size: 13px; color: var(--muted);
 }
 
-/* Reveal */
-@keyframes rise { from { transform: translateY(16px); } to { transform: none; } }
-.reveal.is-visible { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+/* Animaciones de aparición
+   Solo se ocultan los elementos que están fuera de pantalla al cargar
+   (clase .is-pending, la pone main.js); el resto se ve desde el primer cuadro. */
+:root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* Entrada del hero: palabras que suben desde una máscara */
+.hero__title .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+.hero__title .w > span { display: inline-block; animation: word-in 1s var(--ease-out) both; animation-delay: calc(120ms + var(--i) * 70ms); }
+.hero .eyebrow, .hero__scroll { animation: fade-up 0.9s var(--ease-out) both; }
+.hero .eyebrow { animation-delay: 40ms; }
+.hero__scroll { animation-delay: 700ms; }
+.nav { animation: fade-down 0.8s var(--ease-out) both; }
+@keyframes word-in { from { transform: translateY(105%); } to { transform: none; } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fade-down { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+/* Al hacer scroll */
+.reveal { transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); transition-delay: var(--d, 0ms); }
+.reveal.is-pending { opacity: 0; transform: translateY(32px); }
+.contact__mail.reveal { transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out), background-size 0.5s, color 0.3s; transition-delay: var(--d, 0ms), var(--d, 0ms), 0ms, 0ms; }
+
+/* Imágenes: cortina que se abre de abajo hacia arriba y un leve zoom de salida */
+.reveal-img { transition: clip-path 1.2s var(--ease-out); transition-delay: var(--d, 0ms); }
+.reveal-img img { transition: transform 1.6s var(--ease-out); transition-delay: var(--d, 0ms); }
+.reveal-img.is-pending { clip-path: inset(100% 0 0 0); }
+.reveal-img.is-pending img { transform: scale(1.15); }
+.reveal-img.is-visible img { transition-delay: 0ms; }
+
+/* Línea superior de cada sección que se dibuja de izquierda a derecha */
+.section { position: relative; border-top-color: transparent; }
+.section::before {
+  content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+  background: var(--line); transform-origin: left; transition: transform 1.4s var(--ease-out);
+}
+.section.is-pending::before { transform: scaleX(0); }
+
 @media (prefers-reduced-motion: reduce) {
-  .reveal.is-visible { animation: none; }
   html { scroll-behavior: auto; }
+  .hero__title .w > span, .hero .eyebrow, .hero__scroll, .nav { animation: none; }
+  .reveal, .reveal-img, .reveal-img img, .section::before { transition: none; }
 }
 
 @media (max-width: 1000px) {

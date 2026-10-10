@@ -23,5 +23,6 @@ Basado en patrones habituales de portafolios minimalistas:
 - Tipografía como protagonista: serif editorial grande (Instrument Serif) + sans neutra (Inter Tight).
 - Paleta casi monocroma (off-white / tinta) con un solo color de acento.
 - Casos destacados grandes con datos clave e imágenes de detalle, y una grilla con el resto del trabajo de producto.
-- Mucho espacio en blanco, separadores de 1px, microinteracciones sutiles (zoom de portada, subrayado animado, aparición al scroll).
+- Mucho espacio en blanco y separadores de 1px que se dibujan al entrar cada sección.
+- Movimiento: el titular sube palabra por palabra al cargar; al hacer scroll las imágenes se abren como cortina y los textos aparecen escalonados. Lo visible al cargar nunca se oculta.
 - Modo oscuro automático + toggle manual, responsive y respeta `prefers-reduced-motion`.
