@@ -6,7 +6,8 @@
   --accent: #2f5bff;
   /* Duotono del hero: el fondo de la página y un gris apenas más oscuro */
   --duo-a: #f4f2ee;
-  --duo-b: #e2dfd8;
+  --duo-b: #bdb8ae;
+  --duo-muted: #3f3d39;
   --sans: "Inter Tight", system-ui, sans-serif;
   --serif: "Instrument Serif", Georgia, serif;
   --gutter: clamp(16px, 4vw, 48px);
@@ -22,6 +23,7 @@
     --accent: #7d97ff;
     --duo-a: #111110;
     --duo-b: #1d1c1a;
+    --duo-muted: #8d8a83;
     color-scheme: dark;
   }
 }
@@ -33,6 +35,7 @@
   --accent: #7d97ff;
   --duo-a: #111110;
   --duo-b: #1d1c1a;
+  --duo-muted: #8d8a83;
   color-scheme: dark;
 }
 
@@ -78,7 +81,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   content: ""; position: absolute; inset: auto 0 0 0; height: 45%; z-index: -1; pointer-events: none;
   background: linear-gradient(to bottom, transparent, var(--bg));
 }
-.hero .eyebrow, .hero__scroll { color: var(--muted); }
+.hero .eyebrow, .hero__scroll { color: var(--duo-muted); }
 .hero__scroll:hover { color: var(--fg); }
 .eyebrow {
   display: flex; align-items: center; gap: 8px;
