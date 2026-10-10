@@ -13,15 +13,18 @@
     .map(
       (p) => `
       <article class="case">
-        <a class="case__cover" href="${p.url}" target="_blank" rel="noopener">
-          <img src="${p.cover}" alt="${p.title}" />
-        </a>
+        ${
+          p.url
+            ? `<a class="case__cover" href="${p.url}" target="_blank" rel="noopener"><img src="${p.cover}" alt="${p.title}" /></a>`
+            : `<div class="case__cover"><img src="${p.cover}" alt="${p.title}" /></div>`
+        }
         <div class="case__info">
           <p class="case__meta">${p.category} · ${p.year}</p>
           <h3 class="case__title">${p.title}</h3>
           <p class="case__summary">${p.summary}</p>
+          <ul class="case__highlights">${p.highlights.map((h) => `<li>${h}</li>`).join("")}</ul>
           <ul class="tags">${p.tags.map((t) => `<li>${t}</li>`).join("")}</ul>
-          <a class="case__link" href="${p.url}" target="_blank" rel="noopener">Ver caso en Behance ↗</a>
+          ${p.url ? `<a class="case__link" href="${p.url}" target="_blank" rel="noopener">Ver caso en Behance ↗</a>` : ""}
         </div>
         <div class="case__details">
           ${p.details.map((d) => `<img src="${d}" alt="${p.title}, detalle" loading="lazy" />`).join("")}
@@ -35,7 +38,7 @@
   list.innerHTML = projects
     .map(
       (p) => `
-      <a class="project" data-kind="${p.kind}" href="${p.url}" target="_blank" rel="noopener">
+      <a class="project" href="${p.url}" target="_blank" rel="noopener">
         <div class="project__media">
           <img src="${p.cover}" alt="${p.title}" loading="lazy" />
         </div>
@@ -47,26 +50,6 @@
       </a>`
     )
     .join("");
-
-  // Filtro por tipo
-  const filters = document.querySelectorAll("[data-filter]");
-  filters.forEach((btn) =>
-    btn.addEventListener("click", () => {
-      filters.forEach((b) => b.classList.toggle("is-active", b === btn));
-      list.querySelectorAll(".project").forEach((el) => {
-        el.hidden = btn.dataset.filter !== "all" && el.dataset.kind !== btn.dataset.filter;
-      });
-    })
-  );
-
-  // Vista grid / índice
-  const buttons = document.querySelectorAll("[data-view]");
-  buttons.forEach((btn) =>
-    btn.addEventListener("click", () => {
-      buttons.forEach((b) => b.classList.toggle("is-active", b === btn));
-      list.className = `projects projects--${btn.dataset.view}`;
-    })
-  );
 
   // Sobre mí
   document.getElementById("about-text").innerHTML = profile.about
