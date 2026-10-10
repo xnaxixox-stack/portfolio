@@ -7,7 +7,7 @@ window.PORTFOLIO = {
     name: "Ignacio Grandón",
     role: "Diseñador UX/UI · Design Systems",
     location: "Chile",
-    headline: "Diseño flujos de compra y el design system de SKY Airline.",
+    headline: "Diseño productos digitales y design systems.",
     about: [
       "Soy diseñador UX/UI en SKY Airline. Administro Lyra, su design system, y diseño flujos de compra para la venta a pasajeros y el canal corporativo.",
       "Además de las pantallas, entrego la especificación técnica y prototipos funcionales. También programo herramientas para el sistema, como un plugin de Figma para auditar tokens y agentes de IA que trabajan con Lyra.",
