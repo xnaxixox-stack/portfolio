@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Portafolio de diseño</title>
-    <meta name="description" content="Portafolio de diseño de producto." />
+    <title>Ignacio Grandon</title>
+    <meta name="description" content="Portafolio de Ignacio Grandon, diseñador UX/UI en Chile." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -36,10 +36,24 @@
 
       <section id="work" class="section">
         <div class="section__head">
-          <h2>Trabajo seleccionado</h2>
-          <div class="view-switch" role="tablist">
-            <button type="button" data-view="grid" class="is-active">Grid</button>
-            <button type="button" data-view="list">Índice</button>
+          <h2>Casos destacados</h2>
+        </div>
+        <div class="featured" id="featured"></div>
+      </section>
+
+      <section id="archive" class="section">
+        <div class="section__head">
+          <h2>Más proyectos</h2>
+          <div class="controls">
+            <div class="view-switch" role="group" aria-label="Filtrar proyectos">
+              <button type="button" data-filter="all" class="is-active">Todo</button>
+              <button type="button" data-filter="producto">Producto digital</button>
+              <button type="button" data-filter="grafica">Gráfica y marca</button>
+            </div>
+            <div class="view-switch" role="group" aria-label="Vista">
+              <button type="button" data-view="grid" class="is-active">Grid</button>
+              <button type="button" data-view="list">Índice</button>
+            </div>
           </div>
         </div>
         <div class="projects projects--grid" id="projects"></div>
