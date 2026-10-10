@@ -7,10 +7,10 @@ window.PORTFOLIO = {
     name: "Ignacio Grandón",
     role: "Diseñador UX/UI · Design Systems",
     location: "Chile",
-    headline: "Diseño productos digitales y los sistemas que los mantienen consistentes.",
+    headline: "Diseño flujos de compra y el design system de SKY Airline.",
     about: [
-      "Soy Ignacio Grandón, diseñador UX/UI en Chile. Administro Lyra, el design system de SKY Airline, y diseño flujos de compra para la venta retail y el canal corporativo.",
-      "Trabajo donde diseño y código se encuentran: entrego la pantalla, la especificación técnica y el prototipo funcionando. También construyo las herramientas que sostienen el sistema, desde plugins de Figma hasta agentes de IA conectados al design system.",
+      "Soy diseñador UX/UI en SKY Airline. Administro Lyra, su design system, y diseño flujos de compra para la venta a pasajeros y el canal corporativo.",
+      "Además de las pantallas, entrego la especificación técnica y prototipos funcionales. También programo herramientas para el sistema, como un plugin de Figma para auditar tokens y agentes de IA que trabajan con Lyra.",
     ],
     skills: [
       "Design systems",
@@ -37,13 +37,13 @@ window.PORTFOLIO = {
       cover: "assets/img/lyra.jpg",
       details: ["assets/img/lyra-1.jpg", "assets/img/lyra-2.jpg"],
       summary:
-        "Administro Lyra de punta a punta: un solo sistema de tokens y componentes para dos negocios, retail (pasajeros) y corporativo (empresas), sobre web Vue 3 y app React Native.",
+        "Lyra es el sistema de tokens y componentes que comparten los dos negocios de SKY, retail (pasajeros) y corporativo (empresas), en la web Vue 3 y la app React Native. Me encargo de mantenerlo, configurarlo y hacerlo crecer.",
       highlights: [
         "208 componentes en Figma, cerca de 3.000 variantes y 17 estilos tipográficos",
-        "Dos marcas sobre la misma base de tokens, resueltas con modos de Figma",
-        "Nuevo criterio de certificación con Desarrollo y QA: se valida el cumplimiento de tokens en vez de la fidelidad estructural a Figma",
-        "Auditoría del kit contra el canon: 54 colores revisados, 14 fuera de norma documentados",
-        "Lyra Token Auditor, un plugin de Figma que diseñé y programé para auditar color, espaciado, tipografía, radios y sombras",
+        "Dos marcas sobre la misma base de tokens, con un modo de Figma para cada una",
+        "Con Desarrollo y QA cambiamos el criterio de certificación: ahora se revisa que se usen los tokens, no que la estructura sea idéntica a Figma",
+        "Auditoría del kit de componentes: de 54 colores revisados, 14 no correspondían a un token",
+        "Lyra Token Auditor: plugin de Figma que diseñé y programé para revisar color, espaciado, tipografía, radios y sombras",
       ],
       tags: ["Figma variables", "Vue 3", "React Native", "Gobernanza"],
     },
@@ -54,12 +54,12 @@ window.PORTFOLIO = {
       cover: "assets/img/mapa-agentico.jpg",
       details: ["assets/img/mapa-agentico-1.jpg", "assets/img/mapa-agentico-2.jpg"],
       summary:
-        "Un repositorio que le da a la IA el contexto completo del design system: los 208 componentes mapeados, una fuente única de verdad para los tokens y comandos para auditar, sincronizar con Figma, generar componentes y corregir valores escritos a mano en el código.",
+        "Un repositorio que le da a la IA el contexto de Lyra: los 208 componentes mapeados, los tokens en una sola fuente y comandos para auditar, sincronizar con Figma, generar componentes y corregir valores escritos a mano en el código.",
       highlights: [
         "Crucé el mapa con los repos de producción: 228 componentes Vue 3 y 444 en React Native",
         "Cobertura medida en tres ejes: 68 % web y 66 % app en componentes, 59 % y 70 % en tokens, 29 % en props",
-        "8 colores que web y app definen por separado y el canon no tiene, listos para volverse tokens",
-        "Agentes especializados para investigación UX de aerolíneas, benchmarking, legibilidad de íconos y diseño con los átomos de Lyra",
+        "8 colores que web y app definen por separado y que no existen como token",
+        "Agentes para investigación UX de aerolíneas, benchmarking, legibilidad de íconos y diseño con los componentes de Lyra",
       ],
       tags: ["Claude", "Agentes", "Figma MCP", "Auditoría"],
     },
@@ -71,10 +71,10 @@ window.PORTFOLIO = {
       details: ["assets/img/sky-airline-app-1.jpg", "assets/img/sky-airline-app-2.jpg"],
       url: "https://www.behance.net/gallery/210750507/SKY-Airline-APP",
       summary:
-        "La app de la aerolínea low cost de Sudamérica: búsqueda de vuelos, estado del vuelo en tiempo real, check-in y tarjeta de embarque en el teléfono. En la web diseño el flujo de compra SKLY.",
+        "App de SKY Airline con búsqueda de vuelos, estado del vuelo, check-in y tarjeta de embarque. En la web trabajo en el flujo de compra SKLY.",
       highlights: [
-        "Rediseño de \"Revisa antes de pagar\": precio total protagonista y desglose por pasajero",
-        "Mapa de asientos móvil con encabezado colapsable que gana cerca de 108 px para la grilla",
+        "Rediseño de \"Revisa antes de pagar\": el precio total arriba y el desglose por pasajero",
+        "Mapa de asientos en móvil: el encabezado se colapsa al hacer scroll y deja cerca de 108 px más para la grilla",
         "Asientos y equipaje para clientes Platino: el beneficio se suma a la tarifa en vez de reemplazarla",
         "Drawer de asiento Premier con animación isométrica en Lottie",
       ],
@@ -88,9 +88,9 @@ window.PORTFOLIO = {
       details: ["assets/img/ninja-excel-1.jpg", "assets/img/ninja-excel-2.jpg"],
       url: "https://www.behance.net/gallery/148445075/Ninja-Excel",
       summary:
-        "Software integrado a Microsoft Excel para empresas, con una plataforma para administradores y colaboradores que entrega feedback inmediato.",
+        "Software para empresas integrado a Microsoft Excel, con una plataforma para administradores y colaboradores que entrega feedback inmediato.",
       highlights: [
-        "Proceso de descubrimiento con el usuario administrador",
+        "Descubrimiento con el usuario administrador",
         "Test de usabilidad con Maze",
       ],
       tags: ["UX/UI", "Test de usabilidad", "Maze"],
