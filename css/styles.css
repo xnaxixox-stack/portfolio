@@ -4,6 +4,11 @@
   --muted: #6f6c66;
   --line: #d8d4cc;
   --accent: #2f5bff;
+  /* Duotono del hero: tinta y azul, texto claro encima */
+  --duo-a: #0d1430;
+  --duo-b: #2f5bff;
+  --duo-text: #f4f2ee;
+  --duo-muted: #c3c8dc;
   --sans: "Inter Tight", system-ui, sans-serif;
   --serif: "Instrument Serif", Georgia, serif;
   --gutter: clamp(16px, 4vw, 48px);
@@ -17,6 +22,8 @@
     --muted: #8d8a83;
     --line: #2a2926;
     --accent: #7d97ff;
+    --duo-a: #08090f;
+    --duo-b: #3a5cf0;
     color-scheme: dark;
   }
 }
@@ -26,6 +33,8 @@
   --muted: #8d8a83;
   --line: #2a2926;
   --accent: #7d97ff;
+  --duo-a: #08090f;
+  --duo-b: #3a5cf0;
   color-scheme: dark;
 }
 
@@ -57,9 +66,18 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* Hero */
 .hero {
+  position: relative; isolation: isolate; overflow: hidden;
   display: flex; flex-direction: column; justify-content: center; gap: 32px;
-  padding: clamp(64px, 14vw, 180px) var(--gutter) clamp(64px, 10vw, 140px);
+  padding: clamp(80px, 15vw, 200px) var(--gutter) clamp(72px, 11vw, 160px);
+  color: var(--duo-text);
+  /* Respaldo sin WebGL: un foco azul que sigue al mouse sobre la tinta */
+  background:
+    radial-gradient(circle at var(--mx, 72%) var(--my, 30%), var(--duo-b), transparent 55%),
+    var(--duo-a);
 }
+.hero__bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; display: block; }
+.hero .eyebrow, .hero__scroll { color: var(--duo-muted); }
+.hero__scroll:hover { color: var(--duo-text); }
 .eyebrow {
   display: flex; align-items: center; gap: 8px;
   font-size: 14px; color: var(--muted);
@@ -73,10 +91,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font: 400 clamp(44px, 8.4vw, 128px)/0.98 var(--serif);
   letter-spacing: -0.02em;
 }
-.hero__scroll { font-size: 14px; color: var(--muted); }
-.hero__scroll:hover { color: var(--fg); }
+.hero__scroll { font-size: 14px; }
 
 /* Sections */
+.hero + .section::before { display: none; }
 .section { padding: 96px var(--gutter); border-top: 1px solid var(--line); }
 .section h2 { font-size: 14px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .section__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
