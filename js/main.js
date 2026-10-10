@@ -152,17 +152,35 @@
     // Las imágenes ocultas con clip-path no tienen área visible, así que se
     // observa su contenedor y al entrar se revelan todos los elementos asociados.
     const byTrigger = new Map();
+    const reveal = (trigger) => {
+      const els = byTrigger.get(trigger);
+      if (!els) return;
+      els.forEach((el) => {
+        el.classList.remove("is-pending");
+        el.classList.add("is-visible");
+      });
+      byTrigger.delete(trigger);
+      io.unobserve(trigger);
+    };
     const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          byTrigger.get(e.target).forEach((el) => {
-            el.classList.remove("is-pending");
-            el.classList.add("is-visible");
-          });
-          io.unobserve(e.target);
-        }),
+      (entries) => entries.forEach((e) => e.isIntersecting && reveal(e.target)),
       { threshold: 0, rootMargin: "0px 0px -12% 0px" }
+    );
+    // Respaldo: con un scroll muy rápido el observer puede saltarse elementos
+    // chicos que cruzan la pantalla entre dos cuadros; se revela todo lo que ya pasó.
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking || !byTrigger.size) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          const limit = innerHeight * 0.88;
+          [...byTrigger.keys()].forEach((t) => t.getBoundingClientRect().top < limit && reveal(t));
+        });
+      },
+      { passive: true }
     );
     // Solo se ocultan los que empiezan fuera de pantalla; lo visible al cargar queda tal cual
     targets.forEach((el) => {

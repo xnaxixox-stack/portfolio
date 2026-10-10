@@ -11,12 +11,14 @@ window.PORTFOLIO = {
     about: [
       "Soy diseñador UX/UI en SKY Airline. Administro Lyra, su design system, y diseño flujos de compra para la venta a pasajeros y el canal corporativo.",
       "Además de las pantallas, entrego la especificación técnica y prototipos funcionales. También programo herramientas para el sistema, como un plugin de Figma para auditar tokens y agentes de IA que trabajan con Lyra.",
+      "Antes diseñé la experiencia de Ninja Excel y Buk Capacitaciones, donde me encargué de la investigación con usuarios y del diseño de punta a punta. Vengo de la publicidad y el diseño gráfico (Duoc UC) y tengo un diplomado en Estrategias y Experiencias Digitales de la Universidad Católica.",
     ],
     skills: [
       "Design systems",
       "Tokens y modos de marca",
       "Flujos de compra",
-      "Investigación UX",
+      "UX research",
+      "Test de usabilidad",
       "Figma Plugin API",
       "IA aplicada al diseño",
       "Vue 3",
@@ -24,7 +26,7 @@ window.PORTFOLIO = {
     links: {
       email: "ig.grandon@gmail.com",
       behance: "https://www.behance.net/iggrandon3ec1",
-      linkedin: "", // TODO
+      linkedin: "https://www.linkedin.com/in/ignacio-grandon-ahumada",
     },
   },
 
@@ -82,18 +84,21 @@ window.PORTFOLIO = {
     },
     {
       title: "Ninja Excel by Buk",
-      category: "UX/UI · Plataforma de capacitación",
-      year: "2022",
+      category: "UX/UI · Buk Capacitaciones",
+      year: "2020–2022",
       cover: "assets/img/ninja-excel.jpg",
       details: ["assets/img/ninja-excel-1.jpg", "assets/img/ninja-excel-2.jpg"],
       url: "https://www.behance.net/gallery/148445075/Ninja-Excel",
       summary:
         "Plataforma de capacitación en Microsoft Excel para empresas. Los colaboradores aprenden y practican dentro del mismo Excel, con feedback inmediato, y los administradores siguen el avance de sus equipos. Buk la adquirió en 2021 y la integró a su módulo de capacitaciones.",
       highlights: [
-        "Descubrimiento con el usuario administrador",
-        "Test de usabilidad con Maze",
+        "Diseño de los dos ambientes: el del estudiante y el portal de administración de perfiles y cursos",
+        "Research: entrevistas en profundidad con usuarios y stakeholders, encuestas y test de usabilidad con Maze",
+        "Estrategia de producto: escenarios ideales, análisis de brechas y roadmap",
+        "Gamificación para Ninja: avatares, niveles, medallas y puntos",
+        "Wireframes, prototipos en alta fidelidad y microinteracciones",
       ],
-      tags: ["UX/UI", "Test de usabilidad", "Maze"],
+      tags: ["UX research", "LMS", "Gamificación", "Maze"],
     },
   ],
 
