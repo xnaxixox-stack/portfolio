@@ -71,7 +71,7 @@ window.PORTFOLIO = {
       details: ["assets/img/sky-airline-app-1.jpg", "assets/img/sky-airline-app-2.jpg"],
       url: "https://www.behance.net/gallery/210750507/SKY-Airline-APP",
       summary:
-        "App de SKY Airline con búsqueda de vuelos, estado del vuelo, check-in y tarjeta de embarque. En la web trabajo en el flujo de compra SKLY.",
+        "App de SKY, aerolínea low cost con operaciones en Chile y Perú y vuelos a destinos nacionales e internacionales. Desde la app se buscan y compran vuelos, se revisa el estado del vuelo, se hace el check-in y se lleva la tarjeta de embarque en el teléfono. En la web trabajo en el flujo de compra SKLY.",
       highlights: [
         "Rediseño de \"Revisa antes de pagar\": el precio total arriba y el desglose por pasajero",
         "Mapa de asientos en móvil: el encabezado se colapsa al hacer scroll y deja cerca de 108 px más para la grilla",
@@ -82,13 +82,13 @@ window.PORTFOLIO = {
     },
     {
       title: "Ninja Excel by Buk",
-      category: "UX/UI · SaaS",
+      category: "UX/UI · Plataforma de capacitación",
       year: "2022",
       cover: "assets/img/ninja-excel.jpg",
       details: ["assets/img/ninja-excel-1.jpg", "assets/img/ninja-excel-2.jpg"],
       url: "https://www.behance.net/gallery/148445075/Ninja-Excel",
       summary:
-        "Software para empresas integrado a Microsoft Excel, con una plataforma para administradores y colaboradores que entrega feedback inmediato.",
+        "Plataforma de capacitación en Microsoft Excel para empresas. Los colaboradores aprenden y practican dentro del mismo Excel, con feedback inmediato, y los administradores siguen el avance de sus equipos. Buk la adquirió en 2021 y la integró a su módulo de capacitaciones.",
       highlights: [
         "Descubrimiento con el usuario administrador",
         "Test de usabilidad con Maze",
