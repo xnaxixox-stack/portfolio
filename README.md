@@ -25,5 +25,5 @@ Basado en patrones habituales de portafolios minimalistas:
 - Casos destacados grandes con datos clave e imágenes de detalle, y una grilla con el resto del trabajo de producto.
 - Mucho espacio en blanco y separadores de 1px que se dibujan al entrar cada sección.
 - Movimiento: el titular sube palabra por palabra al cargar; al hacer scroll las imágenes se abren como cortina y los textos aparecen escalonados. Lo visible al cargar nunca se oculta.
-- Hero con fondo duotono en WebGL (`js/hero-bg.js`): ruido animado en dos tonos con grano, que se deforma alrededor del mouse. Sin WebGL queda un degradado CSS que también sigue al mouse.
+- Hero con fondo duotono en WebGL (`js/hero-bg.js`): ruido animado en dos grises (el fondo de la página y uno apenas más oscuro) con grano, que se deforma alrededor del mouse. Sin WebGL queda un degradado CSS que también sigue al mouse.
 - Modo oscuro automático + toggle manual, responsive y respeta `prefers-reduced-motion`.

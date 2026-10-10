@@ -1,4 +1,4 @@
-// Fondo duotono del hero.
+// Fondo duotono del hero (fondo de página y un gris).
 // Un campo de ruido (fbm con domain warping) se pinta con solo dos colores,
 // --duo-a y --duo-b, más un grano fino de impresión. El mouse empuja el campo
 // y aclara la zona cercana. Sin WebGL queda el degradado CSS, que también
@@ -77,11 +77,11 @@
       n += infl * 0.28;
 
       // Dos tonos: el umbral suave deja manchas definidas, como una impresión duotono
-      float v = smoothstep(0.5, 0.62, n);
+      float v = smoothstep(0.47, 0.65, n);
 
       // Grano
       float g = hash(gl_FragCoord.xy + fract(u_time * 7.0)) - 0.5;
-      v = clamp(v + g * 0.09, 0.0, 1.0);
+      v = clamp(v + g * 0.12, 0.0, 1.0);
 
       gl_FragColor = vec4(mix(u_a, u_b, v), 1.0);
     }
