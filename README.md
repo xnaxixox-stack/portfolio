@@ -27,3 +27,8 @@ Basado en patrones habituales de portafolios minimalistas:
 - Movimiento: el titular sube palabra por palabra al cargar; al hacer scroll las imágenes se abren como cortina y los textos aparecen escalonados. Lo visible al cargar nunca se oculta.
 - Hero con fondo duotono en WebGL (`js/hero-bg.js`): ruido animado en dos grises (el fondo de la página y uno apenas más oscuro) con grano, que se deforma alrededor del mouse. Sin WebGL queda un degradado CSS que también sigue al mouse.
 - Modo oscuro automático + toggle manual, responsive y respeta `prefers-reduced-motion`.
+
+## Publicación
+
+El sitio se publica con GitHub Pages desde la rama `main` (carpeta raíz). El
+archivo `.nojekyll` evita que GitHub procese el sitio con Jekyll; se sirve tal cual.
