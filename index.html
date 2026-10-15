@@ -2,25 +2,29 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Ignacio Grandón</title>
     <meta name="description" content="Portafolio de Ignacio Grandón, diseñador UX/UI y de design systems en Chile." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Assistant:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <header class="nav">
-      <a href="#top" class="nav__brand" data-bind="name"></a>
+      <a href="#top" class="nav__brand" data-bind="name" data-magnetic></a>
       <nav class="nav__links">
-        <a href="#work">Trabajo</a>
-        <a href="#about">Sobre mí</a>
-        <a href="#contact">Contacto</a>
-        <button class="theme-toggle" type="button" aria-label="Cambiar tema">◐</button>
+        <a href="#work" data-magnetic>Trabajo</a>
+        <a href="#lab" data-magnetic>Laboratorio</a>
+        <a href="#about" data-magnetic>Sobre mí</a>
+        <a href="#contact" data-magnetic>Contacto</a>
+        <button class="inspect-toggle" type="button" aria-pressed="false" data-magnetic>
+          <span class="inspect-toggle__key" aria-hidden="true">I</span><span class="inspect-toggle__label">Inspeccionar</span>
+        </button>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema" data-magnetic>◐</button>
       </nav>
     </header>
 
@@ -32,21 +36,91 @@
           <span data-bind="role"></span> · <span data-bind="location"></span>
         </p>
         <h1 class="hero__title" data-bind="headline"></h1>
-        <a href="#work" class="hero__scroll">Ver trabajo ↓</a>
+        <div class="hero__foot">
+          <a href="#work" class="hero__scroll" data-magnetic>Ver trabajo ↓</a>
+          <p class="hero__meta">
+            <span>Santiago <time class="clock" id="clock">--:--</time></span>
+            <span class="hero__hint">Presiona <kbd>I</kbd> para ver el sistema detrás de esta página</span>
+          </p>
+        </div>
       </section>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track" id="marquee"></div>
+      </div>
 
       <section id="work" class="section">
         <div class="section__head">
           <h2>Casos destacados</h2>
+          <p class="section__count" id="case-count"></p>
         </div>
-        <div class="featured" id="featured"></div>
+        <div class="stack" id="featured"></div>
+      </section>
+
+      <section id="lab" class="section lab">
+        <div class="section__head">
+          <h2>Laboratorio</h2>
+          <p class="section__note">Dos piezas del trabajo, funcionando.</p>
+        </div>
+
+        <div class="lab__grid">
+          <article class="lab__item" id="modes">
+            <header class="lab__head">
+              <p class="lab__kicker">01 · Lyra</p>
+              <h3 class="lab__title">Un componente, dos marcas</h3>
+              <p class="lab__text">
+                El mismo componente cambia de marca solo cambiando el modo de los tokens. Retail es la venta a
+                pasajeros; corporativo, la venta a empresas.
+              </p>
+            </header>
+            <div class="modes">
+              <div class="modes__switch" role="group" aria-label="Modo de tokens">
+                <button type="button" data-mode="retail" aria-pressed="true">retail</button>
+                <button type="button" data-mode="corpo" aria-pressed="false">corpo</button>
+                <span class="modes__thumb" aria-hidden="true"></span>
+              </div>
+              <div class="flight" data-mode="retail" id="flight">
+                <div class="flight__top">
+                  <span class="flight__badge">Recomendado</span>
+                  <span class="flight__date">Mié 18 jun</span>
+                </div>
+                <div class="flight__route">
+                  <div><b>07:00</b><span>SCL</span></div>
+                  <div class="flight__line"><span>Directo · 1h 35m</span></div>
+                  <div><b>08:35</b><span>CCP</span></div>
+                </div>
+                <div class="flight__bottom">
+                  <div class="flight__price"><small>Desde</small><b>$24.990</b></div>
+                  <button class="flight__cta" type="button">Elegir tarifa</button>
+                </div>
+              </div>
+              <ul class="modes__tokens" id="mode-tokens"></ul>
+            </div>
+          </article>
+
+          <article class="lab__item" id="graph-item">
+            <header class="lab__head">
+              <p class="lab__kicker">02 · Mapa agéntico</p>
+              <h3 class="lab__title">El design system, legible para la IA</h3>
+              <p class="lab__text">
+                Una muestra del mapa: componentes de Lyra agrupados por familia y los agentes que trabajan con ellos.
+                Pasa el cursor por un agente para ver qué toca; arrastra los nodos.
+              </p>
+            </header>
+            <div class="graph">
+              <canvas class="graph__canvas" id="graph" aria-label="Grafo de componentes de Lyra y agentes de IA" role="img"></canvas>
+              <p class="graph__tip" id="graph-tip" aria-live="polite"></p>
+            </div>
+          </article>
+        </div>
       </section>
 
       <section id="archive" class="section">
         <div class="section__head">
           <h2>Más proyectos</h2>
         </div>
-        <div class="projects projects--grid" id="projects"></div>
+        <ul class="list" id="projects"></ul>
+        <div class="list__preview" aria-hidden="true"><img alt="" id="list-preview-img" /></div>
       </section>
 
       <section id="about" class="section about">
@@ -62,7 +136,7 @@
 
       <section id="contact" class="section contact">
         <p class="eyebrow">¿Trabajamos juntos?</p>
-        <a class="contact__mail" id="mail"></a>
+        <a class="contact__mail" id="mail" data-cursor="Escribir"></a>
         <button class="contact__copy" id="copy-mail" type="button">Copiar correo</button>
         <ul class="contact__links" id="links"></ul>
       </section>
@@ -70,11 +144,23 @@
 
     <footer class="footer">
       <span>© <span id="year"></span> <span data-bind="name"></span></span>
+      <span class="footer__built">Hecho a mano con HTML, CSS y WebGL</span>
       <a href="#top">Volver arriba ↑</a>
     </footer>
+
+    <!-- Capa del modo inspección (la dibuja js/inspect.js) -->
+    <div class="inspect" aria-hidden="true">
+      <div class="inspect__grid"></div>
+      <div class="inspect__box"><span class="inspect__pad"></span></div>
+      <div class="inspect__label"></div>
+    </div>
+    <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
 
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
     <script src="js/hero-bg.js"></script>
+    <script src="js/cursor.js"></script>
+    <script src="js/inspect.js"></script>
+    <script src="js/lab.js"></script>
   </body>
 </html>
