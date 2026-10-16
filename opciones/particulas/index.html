@@ -184,10 +184,10 @@
           })),
           {
             shape: "orbits", label: "Más proyectos", pal: ["#f4f2ee", "#141414", "#2f5bff"],
-            html: `<p class="kicker">${pad(projects.length)} proyectos · 2017</p>
+            html: `<p class="kicker">${pad(projects.length)} proyectos · ${projects[0].year}–${projects[projects.length - 1].year}</p>
                    ${kinetic("Más proyectos", "f-mono")}
                    <ul class="list">${projects
-                     .map((p) => `<li><a href="${p.url}" target="_blank" rel="noopener"><b>${esc(p.title)}</b><span>${esc(p.category)} · ${esc(p.year)} ↗</span></a></li>`)
+                     .map((p, i) => `<li><a href="${p.url}" target="_blank" rel="noopener" data-i="${i}"><b>${esc(p.title)}</b><span>${esc(p.category)} · ${esc(p.year)}</span></a></li>`)
                      .join("")}</ul>`,
           },
           {
@@ -212,6 +212,14 @@
         main.innerHTML = sections
           .map((s, i) => `<section class="sec${s.hero ? " sec--hero" : ""}" id="s${i}"><div class="sec__content">${s.html}</div></section>`)
           .join("");
+
+        // Cada proyecto abre su ficha (el link a Behance queda como respaldo)
+        main.addEventListener("click", (e) => {
+          const a = e.target.closest(".list a[data-i]");
+          if (!a || !window.PortfolioDialog || e.metaKey || e.ctrlKey) return;
+          e.preventDefault();
+          PortfolioDialog.open(projects[+a.dataset.i], { list: projects, root: "../../" });
+        });
 
         // Imágenes que se revelan al entrar
         const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("is-in")), { threshold: 0.25 });
@@ -355,17 +363,18 @@
           }
         }
 
-        // Tres órbitas, una por proyecto
+        // Una órbita por proyecto, repartidas en una grilla suelta
         function orbitPoints(box, out) {
           const r = rng(53);
-          const R = Math.min(box.w, box.h);
-          const cs = [
-            { x: box.x + box.w * 0.3, y: box.y + box.h * 0.35, r: R * 0.22 },
-            { x: box.x + box.w * 0.68, y: box.y + box.h * 0.42, r: R * 0.17 },
-            { x: box.x + box.w * 0.45, y: box.y + box.h * 0.75, r: R * 0.13 },
-          ];
+          const n = projects.length, cols = Math.ceil(Math.sqrt(n * box.w / box.h)), rows = Math.ceil(n / cols);
+          const cw = box.w / cols, ch = box.h / rows;
+          const cs = projects.map((_, k) => ({
+            x: box.x + (k % cols + 0.5) * cw + (r() - 0.5) * cw * 0.25,
+            y: box.y + (Math.floor(k / cols) + 0.5) * ch + (r() - 0.5) * ch * 0.25,
+            r: Math.min(cw, ch) * (0.26 + r() * 0.16),
+          }));
           for (let i = 0; i < N; i++) {
-            const c = cs[i % 3], a = r() * Math.PI * 2, rr = c.r * (i % 2 ? 1 : 0.55 + r() * 0.06);
+            const c = cs[i % n], a = r() * Math.PI * 2, rr = c.r * (i % 2 ? 1 : 0.55 + r() * 0.06);
             out[2 * i] = c.x + Math.cos(a) * rr; out[2 * i + 1] = c.y + Math.sin(a) * rr;
           }
         }
@@ -587,6 +596,7 @@
         requestAnimationFrame(frame);
       })();
     </script>
+    <script src="../../js/project-dialog.js"></script>
     <script src="../../js/switcher.js" data-root="../../" data-current="particulas"></script>
   </body>
 </html>

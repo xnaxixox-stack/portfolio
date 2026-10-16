@@ -49,7 +49,7 @@ comparten un selector abajo al centro (`js/switcher.js`):
    letras de paleta. Cada proyecto es un vuelo y se abre como tarjeta de embarque.
 3. **Partículas** (`opciones/particulas/`): miles de partículas forman una figura por
    sección (el nombre, la grilla de 208 componentes de Lyra, el grafo del mapa, el mapa de
-   asientos, la planilla de Ninja Excel, tres órbitas, una esfera y una @). El scroll
+   asientos, la planilla de Ninja Excel, una órbita por proyecto, una esfera y una @). El scroll
    cambia la figura, los colores y la tipografía. El mouse o el dedo empuja las partículas,
    mantener presionado las junta y un toque las hace explotar. Las letras de los títulos
    cambian de grosor según la cercanía del puntero y se inclinan con la velocidad del scroll.
