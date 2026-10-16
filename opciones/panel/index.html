@@ -197,28 +197,36 @@
         const { profile, featured, projects } = window.PORTFOLIO;
         const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
         const IMG = (src) => "../../" + src;
-        const CHARS = " ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ0123456789·:-";
+        const CHARS = " ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚÜ0123456789·:-";
 
         document.getElementById("name").textContent = profile.name;
         document.getElementById("role").textContent = profile.role + " · " + profile.location;
 
         // Cada proyecto es un vuelo. Los códigos salen de datos reales del caso.
+        const pad2 = (n) => String(n).padStart(2, "0");
+        // Nombres cortos para el tablero (móvil: 10 letras; escritorio: 18)
+        const SHORT = { "App BancoEstado": "BCOESTADO", "Santiago Celebra Bajo la Misma Estrella": "STGO 2017", "Motion Graphics": "MOTION", "Exploraciones Mineras": "EXPLORA", "Becas Nestlé": "BECAS", "Recreos Nutritivos": "RECREOS", "Sadia Food Comedy": "SADIA" };
+        const DEST = { "Santiago Celebra Bajo la Misma Estrella": "SANTIAGO CELEBRA", "Exploraciones Mineras": "EXPLORACIONES MIN." };
         const flights = [
           // LY208: los 208 componentes de Lyra. H2 es el código IATA de SKY.
           { ref: featured[0], code: "LY208", gate: "01", status: "EMBARCANDO", tone: "green", short: "LYRA" },
           { ref: featured[1], code: "MA026", gate: "02", status: "A TIEMPO", tone: "green", short: "MAPA IA" },
           { ref: featured[2], code: "H2024", gate: "03", status: "EN VUELO", short: "SKY APP" },
           { ref: featured[3], code: "NX021", gate: "04", status: "ATERRIZÓ", short: "NINJA" },
+          { ref: featured[4], code: "KY019", gate: "05", status: "ATERRIZÓ", short: "KEYÜ" },
+          // Resto de proyectos: código = dos letras del nombre + año; puerta correlativa
           ...projects.map((p, i) => ({
-            ref: p, code: p.title.slice(0, 2).toUpperCase() + "017", gate: "0" + (5 + i), status: "ARCHIVO", tone: "dim",
-            short: ["PINCHÉ", "BCOESTADO", "SIXEVENT"][i] || p.title.toUpperCase(),
+            ref: p, code: p.title.replace(/[^A-Za-zÁÉÍÓÚÑ]/g, "").slice(0, 2).toUpperCase() + p.year.slice(-3), gate: pad2(6 + i),
+            status: p.kind === "grafica" ? "ATERRIZÓ" : "ARCHIVO", tone: "dim",
+            short: SHORT[p.title] || p.title.toUpperCase().split(" ")[0].slice(0, 10),
+            dest: DEST[p.title],
           })),
-          { kind: "about", code: "IG001", gate: "08", status: "CHECK-IN", dest: "SOBRE MÍ", short: "SOBRE MÍ", year: "" },
-          { kind: "contact", code: "IG002", gate: "09", status: "ABIERTO", tone: "green", dest: "CONTACTO", short: "CONTACTO", year: "HOY" },
+          { kind: "about", code: "IG001", gate: pad2(6 + projects.length), status: "CHECK-IN", dest: "SOBRE MÍ", short: "SOBRE MÍ", year: "" },
+          { kind: "contact", code: "IG002", gate: pad2(7 + projects.length), status: "ABIERTO", tone: "green", dest: "CONTACTO", short: "CONTACTO", year: "HOY" },
         ];
         flights.forEach((f) => {
           if (f.ref) {
-            f.dest = f.ref.title.toUpperCase().replace(" BY BUK", "").replace(" DESIGN SYSTEM", "").replace(" DE LYRA", "");
+            f.dest = f.dest || f.ref.title.toUpperCase().replace(" BY BUK", "").replace(" DESIGN SYSTEM", "").replace(" DE LYRA", "");
             f.year = f.ref.year === "Actual" ? "HOY" : f.ref.year.slice(-4);
           }
         });
@@ -318,7 +326,7 @@
         }
 
         document.getElementById("ticker").innerHTML = (
-          `<span>Pasajero ${profile.name.toUpperCase()}, ${profile.role.toUpperCase()}, PRESENTARSE EN PUERTA 09</span>` +
+          `<span>Pasajero ${profile.name.toUpperCase()}, ${profile.role.toUpperCase()}, PRESENTARSE EN PUERTA ${flights[flights.length - 1].gate}</span>` +
           `<span>HABILIDADES A BORDO: ${profile.skills.join(" · ").toUpperCase()}</span>` +
           `<span>CONTACTO: ${profile.links.email.toUpperCase()}</span>`
         ).repeat(2);

@@ -111,7 +111,7 @@
     .map(
       (p, i) => `
       <li>
-        <a class="row" href="${p.url}" target="_blank" rel="noopener" data-src="${p.cover}" data-cursor="Abrir">
+        <a class="row" href="${p.url}" target="_blank" rel="noopener" data-src="${p.cover}" data-i="${i}" data-cursor="Ver">
           <span class="row__n">${pad(i + 1)}</span>
           <span class="row__title">${p.title}</span>
           <span class="row__cat">${p.category}</span>
@@ -121,6 +121,14 @@
       </li>`
     )
     .join("");
+
+  // Cada fila abre la ficha del proyecto (el href a Behance queda como respaldo)
+  list.addEventListener("click", (e) => {
+    const row = e.target.closest(".row");
+    if (!row || !window.PortfolioDialog || e.metaKey || e.ctrlKey) return;
+    e.preventDefault();
+    PortfolioDialog.open(projects[+row.dataset.i], { list: projects });
+  });
 
   const preview = document.querySelector(".list__preview");
   const previewImg = document.getElementById("list-preview-img");

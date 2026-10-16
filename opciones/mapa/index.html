@@ -148,7 +148,8 @@
 
         // ---------- Grafo ----------
         // Empresas y agrupaciones que no están como tags en data.js, pero sí en
-        // la categoría o el resumen de cada proyecto.
+        // la categoría o el resumen de cada proyecto. Los trabajos para clientes
+        // traen su empresa en p.client.
         const company = { "Lyra Design System": "SKY Airline", "Mapa agéntico de Lyra": "SKY Airline", "SKY Airline App": "SKY Airline", "Ninja Excel by Buk": "Buk" };
         const extra = {
           "Lyra Design System": ["Design systems"],
@@ -181,7 +182,8 @@
         [...featured, ...projects].forEach((p, i) => {
           const n = add({ id: "p:" + p.title, kind: "project", label: p.title, data: p, featured: i < featured.length, year: yearOf(p.year), r: i < featured.length ? 15 : 10 });
           link(me, n);
-          if (company[p.title]) link(n, add({ id: "c:" + company[p.title], kind: "company", label: company[p.title], r: 12 }));
+          const co = company[p.title] || p.client;
+          if (co) link(n, add({ id: "c:" + co, kind: "company", label: co, r: 12 }));
           [...(p.tags || []), ...(extra[p.title] || [])].forEach((t) => link(n, add({ id: "t:" + t, kind: "tag", label: t, r: 5 })));
         });
 
@@ -400,7 +402,8 @@
         const hideHint = () => (hint.style.opacity = 0);
 
         // ---------- Filtro por año ----------
-        const years = ["Todos", ...new Set(projs.map((p) => p.year))];
+        // Del más reciente al más antiguo ("Hoy" primero)
+        const years = ["Todos", ...[...new Set(projs.map((p) => p.year))].sort((a, b) => (b === "Hoy" ? 1e4 : +b) - (a === "Hoy" ? 1e4 : +a))];
         const yearsEl = document.getElementById("years");
         yearsEl.innerHTML = years.map((y) => `<button type="button" aria-pressed="${y === "Todos"}">${y}</button>`).join("");
         yearsEl.addEventListener("click", (e) => {
@@ -499,7 +502,7 @@
           ${[...featured, ...projects]
             .map(
               (p) => `<article>
-                <p class="panel__meta">${esc(p.category)} · ${esc(p.year)}${company[p.title] ? " · " + company[p.title] : ""}</p>
+                <p class="panel__meta">${esc(p.category)} · ${esc(p.year)}${company[p.title] || p.client ? " · " + (company[p.title] || p.client) : ""}</p>
                 <h3>${esc(p.title)}</h3>
                 ${p.summary ? `<p>${esc(p.summary)}</p>` : ""}
                 ${p.highlights ? `<ul class="hl" style="padding-left:18px">${p.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}
