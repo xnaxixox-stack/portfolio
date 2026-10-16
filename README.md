@@ -47,9 +47,12 @@ comparten un selector abajo al centro (`js/switcher.js`):
 1. **Actual** (`index.html`): el sitio descrito arriba.
 2. **Panel de salidas** (`opciones/panel/`): el sitio es un tablero de aeropuerto con
    letras de paleta. Cada proyecto es un vuelo y se abre como tarjeta de embarque.
-3. **Sin estilos** (`opciones/sin-estilos/`): la página parte como HTML sin CSS y el
-   visitante aplica los tokens por capas. En la capa de color aparecen 14 colores fuera
-   de token (como en la auditoría de Lyra) que hay que corregir para seguir.
+3. **Partículas** (`opciones/particulas/`): miles de partículas forman una figura por
+   sección (el nombre, la grilla de 208 componentes de Lyra, el grafo del mapa, el mapa de
+   asientos, la planilla de Ninja Excel, tres órbitas, una esfera y una @). El scroll
+   cambia la figura, los colores y la tipografía. El mouse o el dedo empuja las partículas,
+   mantener presionado las junta y un toque las hace explotar. Las letras de los títulos
+   cambian de grosor según la cercanía del puntero y se inclinan con la velocidad del scroll.
 4. **El mapa** (`opciones/mapa/`): el grafo del mapa agéntico es la navegación. Se filtra
    por año, y al soltar un proyecto sobre otro muestra lo que comparten. Tiene vista en texto.
 
