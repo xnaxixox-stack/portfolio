@@ -61,10 +61,12 @@
 
       /* ---------- Secciones ---------- */
       main { position: relative; z-index: 2; }
-      .sec { position: relative; min-height: 160vh; padding: 0 var(--gutter); }
+      /* El contenido manda: columna ancha en flujo normal (sin sticky, para que
+         nada quede cortado) y la figura de partículas en el tercio derecho. */
+      .sec { position: relative; min-height: 120vh; padding: 16vh var(--gutter) 22vh; }
       .sec__content {
-        position: sticky; top: 14vh; width: min(46vw, 620px); padding: 24px 0 48px;
-        display: flex; flex-direction: column; gap: 16px;
+        position: relative; width: min(60vw, 820px);
+        display: flex; flex-direction: column; gap: 20px;
       }
       .sec--hero { min-height: 130vh; }
       .sec--hero .sec__content { top: 62vh; position: absolute; left: var(--gutter); right: var(--gutter); width: auto; flex-direction: row; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px; }
@@ -76,12 +78,14 @@
       .f-serif-i { font-family: var(--serif); font-style: italic; }
       .f-sans { font-family: var(--sans); }
       .f-mono { font-family: var(--mono); font-size: clamp(36px, 5vw, 80px); letter-spacing: -.04em; }
-      .lede { font-size: clamp(17px, 1.4vw, 20px); max-width: 52ch; }
-      .hl { list-style: none; display: grid; gap: 8px; font-size: 15px; max-width: 56ch; }
+      .lede { font-size: clamp(19px, 1.6vw, 24px); line-height: 1.45; max-width: 46ch; }
+      .hl { list-style: none; display: grid; gap: 10px; font-size: 17px; max-width: 60ch; }
       .hl li { display: grid; grid-template-columns: 22px 1fr; }
       .hl li::before { content: "→"; color: var(--accent); font-family: var(--mono); }
+      .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+      .gallery .shot:first-child { grid-column: 1 / -1; }
       .shot {
-        width: 100%; max-width: 520px; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; display: block;
+        width: 100%; height: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; display: block; cursor: zoom-in;
         clip-path: inset(0 0 100% 0 round 12px); transition: clip-path 1.1s cubic-bezier(.16,1,.3,1);
       }
       .shot.is-in { clip-path: inset(0 0 0 0 round 12px); }
@@ -107,11 +111,11 @@
 
       /* ---------- Móvil: figura arriba, texto abajo con fondo ---------- */
       @media (max-width: 899px) {
-        .sec { min-height: auto; padding-top: 56svh; padding-bottom: 12svh; }
+        .sec { min-height: auto; padding: 34svh var(--gutter) 10svh; }
         .sec__content {
           position: relative; top: 0; width: auto; padding: 20px;
           border-radius: 18px; gap: 14px;
-          background: color-mix(in srgb, var(--bg) 82%, transparent);
+          background: color-mix(in srgb, var(--bg) 92%, transparent);
           backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .sec--hero { min-height: 100svh; padding-top: 0; }
@@ -178,8 +182,11 @@
             html: `<p class="kicker">${pad(i + 1)} · ${esc(p.category)} · ${esc(p.year)}</p>
                    ${kinetic(p.title, ["f-sans", "f-mono", "f-serif-i", "f-sans", "f-serif"][i])}
                    <p class="lede">${esc(p.summary)}</p>
-                   <ul class="hl">${p.highlights.slice(0, 3).map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
-                   <img class="shot" src="${IMG(p.cover)}" alt="${esc(p.title)}" loading="lazy" />
+                   <ul class="hl">${p.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
+                   <div class="gallery">${[p.cover, ...(p.details || [])]
+                     .map((src, j) => `<img class="shot" src="${IMG(src)}" alt="${esc(p.title)}${j ? ", imagen " + (j + 1) : ""}" loading="lazy" data-case="${i}" />`)
+                     .join("")}</div>
+                   <ul class="chips">${(p.tags || []).map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
                    ${p.url ? `<a class="btn" href="${p.url}" target="_blank" rel="noopener">Ver en Behance ↗</a>` : ""}`,
           })),
           {
@@ -213,6 +220,13 @@
           .map((s, i) => `<section class="sec${s.hero ? " sec--hero" : ""}" id="s${i}"><div class="sec__content">${s.html}</div></section>`)
           .join("");
 
+        // Clic en una imagen de un caso: ficha completa con la galería grande
+        main.addEventListener("click", (e) => {
+          const img = e.target.closest(".shot[data-case]");
+          if (!img || !window.PortfolioDialog) return;
+          PortfolioDialog.open(featured[+img.dataset.case], { list: featured, root: "../../" });
+        });
+
         // Cada proyecto abre su ficha (el link a Behance queda como respaldo)
         main.addEventListener("click", (e) => {
           const a = e.target.closest(".list a[data-i]");
@@ -242,8 +256,8 @@
 
         const shapeBox = (hero) =>
           mobile
-            ? hero ? { x: 16, y: H * 0.14, w: W - 32, h: H * 0.34 } : { x: 20, y: H * 0.1, w: W - 40, h: H * 0.38 }
-            : hero ? { x: W * 0.05, y: H * 0.12, w: W * 0.9, h: H * 0.44 } : { x: W * 0.52, y: H * 0.14, w: W * 0.42, h: H * 0.72 };
+            ? hero ? { x: 16, y: H * 0.14, w: W - 32, h: H * 0.34 } : { x: 28, y: H * 0.08, w: W - 56, h: H * 0.22 }
+            : hero ? { x: W * 0.05, y: H * 0.12, w: W * 0.9, h: H * 0.44 } : { x: W * 0.68, y: H * 0.2, w: W * 0.28, h: H * 0.6 };
 
         // Puntos tomados de un texto dibujado fuera de pantalla
         function textPoints(str, box, font, out) {
@@ -463,7 +477,7 @@
         // Centros de cada sección, para saber entre cuáles está el scroll
         let centers = [];
         function measure() {
-          centers = [...main.children].map((el) => el.offsetTop + Math.min(el.offsetHeight, H * 1.6) / 2);
+          centers = [...main.children].map((el) => el.offsetTop + el.offsetHeight / 2);
           centers[0] = 0;
         }
 
