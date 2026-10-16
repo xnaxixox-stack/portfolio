@@ -191,7 +191,7 @@
           })),
           {
             shape: "orbits", label: "Más proyectos", pal: ["#f4f2ee", "#141414", "#2f5bff"],
-            html: `<p class="kicker">${pad(projects.length)} proyectos · ${projects[0].year}–${projects[projects.length - 1].year}</p>
+            html: `<p class="kicker">${pad(projects.length)} proyectos · ${[...new Set([projects[0].year, projects[projects.length - 1].year])].join("–")}</p>
                    ${kinetic("Más proyectos", "f-mono")}
                    <ul class="list">${projects
                      .map((p, i) => `<li><a href="${p.url}" target="_blank" rel="noopener" data-i="${i}"><b>${esc(p.title)}</b><span>${esc(p.category)} · ${esc(p.year)}</span></a></li>`)
