@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Ignacio Grandón · Sin estilos</title>
+    <meta name="description" content="Portafolio de Ignacio Grandón que parte sin CSS y se arma aplicando tokens." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Opción 3: la página parte como HTML sin CSS. El visitante aplica los tokens
+         capa por capa (color, tipografía, espaciado, radios, sombras), en el mismo
+         orden en que revisa el Lyra Token Auditor. Solo la barra de herramientas
+         tiene estilos desde el inicio. */
+
+      /* ================= Barra de herramientas (siempre con estilos) ================= */
+      .tool, .tool * { box-sizing: border-box; margin: 0; padding: 0; }
+      .tool {
+        position: fixed; z-index: 1000; top: 0; left: 0; right: 0;
+        padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+        background: #141414; color: #f4f2ee;
+        font: 400 13px/1.4 "Inter Tight", system-ui, sans-serif;
+        display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+        box-shadow: 0 1px 0 #2a2926;
+      }
+      .tool button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+      .tool :focus-visible { outline: 2px solid #f4f2ee; outline-offset: 2px; }
+      .tool__msg { flex: 1 1 260px; min-width: 0; }
+      .tool__msg b { font-weight: 600; }
+      .tool__msg span { color: #a8a49c; }
+      .tool__steps { display: flex; gap: 4px; flex-wrap: wrap; }
+      .tool__step {
+        display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; border-radius: 999px;
+        border: 1px solid #3a3935; white-space: nowrap; transition: background .2s, border-color .2s, opacity .2s;
+      }
+      .tool__step i { font: 500 10px/1 "JetBrains Mono", monospace; font-style: normal; opacity: .6; }
+      .tool__step:hover:not(:disabled) { border-color: #f4f2ee; }
+      .tool__step[aria-pressed="true"] { background: #f4f2ee; color: #141414; border-color: #f4f2ee; }
+      .tool__step[aria-pressed="true"] i::before { content: "✓ "; }
+      .tool__step:disabled { opacity: .35; cursor: not-allowed; }
+      .tool__step.is-next { border-color: #f4c430; color: #f4c430; animation: pulse 1.6s ease-in-out infinite; }
+      @keyframes pulse { 50% { box-shadow: 0 0 0 4px rgba(244,196,48,.18); } }
+      .tool__meter { display: flex; align-items: center; gap: 8px; font: 500 12px/1 "JetBrains Mono", monospace; white-space: nowrap; }
+      .tool__bar { width: 80px; height: 6px; border-radius: 3px; background: #2a2926; overflow: hidden; }
+      .tool__bar span { display: block; height: 100%; width: 0; background: #4fd18b; transition: width .5s cubic-bezier(.16,1,.3,1); }
+      .tool__aux { display: flex; gap: 4px; }
+      .tool__aux button { padding: 7px 11px; border-radius: 999px; background: #f4f2ee; color: #141414; font-weight: 500; white-space: nowrap; }
+      .tool__aux button.ghost { background: transparent; color: #a8a49c; }
+      .tool__aux button.ghost:hover { color: #f4f2ee; }
+      @media (max-width: 720px) {
+        .tool { gap: 8px; padding-bottom: 8px; font-size: 12px; }
+        .tool__msg { flex-basis: 100%; }
+        .tool__steps { flex-wrap: nowrap; overflow-x: auto; flex: 1 1 100%; scrollbar-width: none; }
+        .tool__meter span:first-child { display: none; }
+        .tool__aux { margin-left: auto; }
+        .tool__step { padding: 6px 9px; }
+        .tool__step .lbl { display: none; }
+        .tool__step[aria-pressed="true"] .lbl, .tool__step.is-next .lbl { display: inline; }
+      }
+
+      /* Toast con los tokens de la capa recién aplicada */
+      .toast {
+        position: fixed; z-index: 1000; right: 16px; top: 76px; max-width: min(360px, calc(100vw - 32px));
+        background: #141414; color: #f4f2ee; border-radius: 10px; padding: 14px 16px;
+        font: 400 12px/1.5 "JetBrains Mono", monospace; box-shadow: 0 12px 40px rgba(0,0,0,.28);
+        transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s;
+      }
+      .toast.is-on { opacity: 1; transform: none; }
+      .toast b { display: block; font: 600 13px/1.3 "Inter Tight", sans-serif; margin-bottom: 8px; }
+      .toast ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+      .toast li { display: flex; align-items: center; gap: 8px; }
+      .toast .sw { width: 12px; height: 12px; border-radius: 3px; border: 1px solid #3a3935; flex: none; }
+
+      /* Caza de colores sueltos: cada uno lleva una etiqueta con su hex */
+      body.hunt .rogue { outline: 2px dashed #f2452e; outline-offset: 3px; cursor: crosshair; position: relative; }
+      body.hunt .rogue::after {
+        content: attr(data-hex); position: absolute; left: 0; top: -22px; z-index: 5;
+        font: 500 10px/1 "JetBrains Mono", monospace; letter-spacing: 0; text-transform: none; font-style: normal;
+        background: #f2452e; color: #fff; padding: 3px 5px; border-radius: 3px; white-space: nowrap;
+      }
+      .fixed-flash { animation: fixed .9s ease-out; }
+      @keyframes fixed { 0% { background: rgba(79,209,139,.45); } 100% { background: transparent; } }
+
+      /* Alto de la barra, medido en vivo (--toolh) */
+      .spacer { height: var(--toolh, 64px); }
+      .toast { top: calc(var(--toolh, 64px) + 12px); }
+
+      /* ================= 1. Color ================= */
+      body.t-color {
+        --bg: #f4f2ee; --surface: #fbfaf7; --fg: #141414; --muted: #6f6c66; --line: #d8d4cc; --accent: #2f5bff;
+        background: var(--bg); color: var(--fg);
+      }
+      @media (prefers-color-scheme: dark) {
+        body.t-color { --bg: #111110; --surface: #191917; --fg: #ecebe7; --muted: #8d8a83; --line: #2a2926; --accent: #7d97ff; }
+      }
+      body.t-color .site a { color: var(--fg); }
+      body.t-color .muted, body.t-color .meta, body.t-color .eyebrow, body.t-color footer { color: var(--muted); }
+      body.t-color .tags li { border: 1px solid var(--line); }
+      body.t-color .case, body.t-color .list li, body.t-color #about, body.t-color #contact { border-top: 1px solid var(--line); }
+      body.t-color .case__link, body.t-color .mail { color: var(--accent); }
+      body.t-color ::selection { background: var(--fg); color: var(--bg); }
+      body.t-color .site { background: var(--bg); }
+
+      /* ================= 2. Tipografía ================= */
+      body.t-type { font: 400 16px/1.55 "Inter Tight", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+      body.t-type h1, body.t-type h2, body.t-type h3 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; letter-spacing: -.01em; }
+      body.t-type h1 { font-size: clamp(44px, 8vw, 112px); line-height: .98; letter-spacing: -.025em; }
+      body.t-type h1 em { font-style: italic; }
+      body.t-type h2 { font-size: clamp(32px, 4.4vw, 56px); line-height: 1; }
+      body.t-type h3 { font-size: clamp(28px, 3vw, 40px); line-height: 1.05; }
+      body.t-type .meta, body.t-type .eyebrow, body.t-type .tags li, body.t-type footer, body.t-type .list .yr {
+        font: 500 12px/1.3 "JetBrains Mono", ui-monospace, monospace; letter-spacing: .02em;
+      }
+      body.t-type .eyebrow { text-transform: uppercase; letter-spacing: .1em; }
+      body.t-type .site a { text-decoration: none; }
+      body.t-type .case__summary { font-size: 17px; }
+      body.t-type .case ul.hl { font-size: 14.5px; }
+      body.t-type .list a { font-family: "Instrument Serif", Georgia, serif; font-size: clamp(24px, 3vw, 36px); line-height: 1.1; }
+      body.t-type .list .cat { font: 400 14px/1.3 "Inter Tight", sans-serif; }
+      body.t-type .mail { font-family: "Instrument Serif", Georgia, serif; font-size: clamp(34px, 7vw, 96px); line-height: 1; letter-spacing: -.02em; }
+      body.t-type #about p { font-size: 18px; }
+      body.t-type .site nav a { font-size: 14px; }
+
+      /* ================= 3. Espaciado ================= */
+      body.t-space { margin: 0; }
+      body.t-space .site { --gutter: clamp(16px, 4vw, 48px); }
+      body.t-space .site header {
+        display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+        padding: 20px var(--gutter);
+      }
+      body.t-space .site header p { margin: 0; }
+      body.t-space .site nav { display: flex; gap: 20px; flex-wrap: wrap; }
+      body.t-space main > section { padding: clamp(64px, 10vw, 128px) var(--gutter); margin: 0; }
+      body.t-space .hero { padding-top: clamp(80px, 14vw, 180px) !important; display: flex; flex-direction: column; justify-content: flex-end; gap: 24px; }
+      body.t-space .hero h1, body.t-space .hero p { margin: 0; }
+      body.t-space .hero h1 { max-width: 16ch; }
+      @media (min-width: 761px) { body.t-space .hero { min-height: 62vh; } }
+      body.t-space h2 { margin: 0 0 clamp(28px, 4vw, 48px); }
+      body.t-space .cases { display: grid; gap: clamp(32px, 5vw, 64px); }
+      body.t-space .case { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); padding-top: clamp(28px, 4vw, 48px); align-items: start; }
+      body.t-space .case img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+      body.t-space .case > div > * { margin: 0; }
+      body.t-space .case > div { display: flex; flex-direction: column; gap: 14px; }
+      body.t-space .case ul.hl { padding-left: 18px; display: grid; gap: 6px; }
+      body.t-space .tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+      body.t-space .tags li { padding: 6px 10px; }
+      body.t-space .list { list-style: none; padding: 0; margin: 0; }
+      body.t-space .list li { padding: 18px 0; }
+      body.t-space .list a { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: 20px; }
+      body.t-space .list img { width: 72px; height: 54px; object-fit: cover; display: block; }
+      body.t-space .list .cat { display: block; margin-top: 4px; }
+      body.t-space #about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(24px, 5vw, 72px); }
+      body.t-space #about h2 { grid-column: 1 / -1; margin-bottom: 0; }
+      body.t-space #about img { width: 100%; max-width: 320px; height: auto; display: block; }
+      body.t-space #about .about__body { display: flex; flex-direction: column; gap: 16px; max-width: 62ch; }
+      body.t-space #about p { margin: 0; }
+      body.t-space #contact { display: flex; flex-direction: column; gap: 20px; }
+      body.t-space #contact > * { margin: 0; }
+      body.t-space #contact ul { list-style: none; padding: 0; display: flex; gap: 20px; flex-wrap: wrap; }
+      body.t-space footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 28px var(--gutter) 96px; }
+      body.t-space footer p { margin: 0; }
+      body.t-space .mail { overflow-wrap: anywhere; }
+      @media (max-width: 760px) {
+        body.t-space .case, body.t-space #about { grid-template-columns: 1fr; }
+        body.t-space .list a { grid-template-columns: 56px 1fr; }
+        body.t-space .list img { width: 56px; height: 42px; }
+        body.t-space .list .yr { display: none; }
+      }
+
+      /* ================= 4. Radios ================= */
+      body.t-radius .case img { border-radius: 14px; }
+      body.t-radius .list img { border-radius: 6px; }
+      body.t-radius #about img { border-radius: 14px; }
+      body.t-radius .tags li { border-radius: 999px; }
+      body.t-radius .case__link, body.t-radius .copy { border-radius: 999px; }
+
+      /* ================= 5. Sombras ================= */
+      body.t-shadow .case img { box-shadow: 0 1px 2px rgba(20,20,20,.06), 0 18px 40px -18px rgba(20,20,20,.35); }
+      body.t-shadow #about img { box-shadow: 0 18px 40px -20px rgba(20,20,20,.4); }
+      body.t-shadow .site header { position: sticky; top: var(--toolh, 64px); z-index: 10; box-shadow: 0 1px 0 var(--line, #ddd), 0 10px 30px -20px rgba(20,20,20,.3); }
+
+      /* Botones del sitio: solo existen como tales cuando hay color + espaciado */
+      body.t-color.t-space .case__link, body.t-color.t-space .copy {
+        align-self: flex-start; display: inline-flex; padding: 10px 16px; border: 1px solid currentColor; background: none; color: var(--fg); font: inherit; cursor: pointer;
+      }
+
+      /* Transición suave al aplicar cada capa */
+      body.is-applying .site, body.is-applying .site * {
+        transition: color .5s, background-color .5s, border-color .5s, border-radius .5s, box-shadow .5s;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body.is-applying .site, body.is-applying .site * { transition: none; }
+        .tool__step.is-next { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tool" role="region" aria-label="Panel de tokens">
+      <p class="tool__msg" id="msg" aria-live="polite"></p>
+      <div class="tool__steps" id="steps"></div>
+      <div class="tool__meter" title="Porcentaje del sitio que usa tokens">
+        <span>tokens</span><span class="tool__bar"><span id="bar"></span></span><span id="pct">0%</span>
+      </div>
+      <div class="tool__aux">
+        <button type="button" id="finish">Ver terminado</button>
+        <button type="button" class="ghost" id="reset">Volver a cero</button>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <div class="spacer"></div>
+
+    <div class="site" id="site"></div>
+
+    <script src="../../js/data.js"></script>
+    <script>
+      (function () {
+        const { profile, featured, projects } = window.PORTFOLIO;
+        const IMG = (s) => "../../" + s;
+        const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+        const pad = (n) => String(n).padStart(2, "0");
+
+        // ---------- Contenido en HTML plano ----------
+        const site = document.getElementById("site");
+        const [hA, hB] = profile.headline.split(" y ");
+        site.innerHTML = `
+          <header>
+            <p><a href="#top"><b>${esc(profile.name)}</b></a></p>
+            <nav><a href="#work">Trabajo</a> <a href="#archive">Más proyectos</a> <a href="#about">Sobre mí</a> <a href="#contact">Contacto</a></nav>
+          </header>
+          <main id="top">
+            <section class="hero">
+              <p class="eyebrow rc">${esc(profile.role)} · ${esc(profile.location)}</p>
+              <h1>${hB ? `${esc(hA)} y <em>${esc(hB)}</em>` : esc(profile.headline)}</h1>
+              <p><a href="#work" class="rc">Ver trabajo ↓</a></p>
+            </section>
+            <section id="work">
+              <h2 class="rc">Casos destacados</h2>
+              <div class="cases">
+                ${featured
+                  .map(
+                    (p, i) => `<article class="case">
+                    <img src="${IMG(p.cover)}" alt="${esc(p.title)}" width="320" ${i ? 'loading="lazy"' : ""} />
+                    <div>
+                      <p class="meta rc">${pad(i + 1)} · ${esc(p.category)} · ${esc(p.year)}</p>
+                      <h3 class="rc">${esc(p.title)}</h3>
+                      <p class="case__summary">${esc(p.summary)}</p>
+                      <ul class="hl">${p.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
+                      <ul class="tags">${p.tags.map((t) => `<li class="rc">${esc(t)}</li>`).join("")}</ul>
+                      ${p.url ? `<a class="case__link rc" href="${p.url}" target="_blank" rel="noopener">Ver en Behance ↗</a>` : ""}
+                    </div>
+                  </article>`
+                  )
+                  .join("")}
+              </div>
+            </section>
+            <section id="archive">
+              <h2 class="rc">Más proyectos</h2>
+              <ol class="list">
+                ${projects
+                  .map(
+                    (p) => `<li><a href="${p.url}" target="_blank" rel="noopener">
+                      <img src="${IMG(p.cover)}" alt="" width="120" loading="lazy" />
+                      <span>${esc(p.title)}<span class="cat muted rc">${esc(p.category)}</span></span>
+                      <span class="yr muted">${esc(p.year)}</span>
+                    </a></li>`
+                  )
+                  .join("")}
+              </ol>
+            </section>
+            <section id="about">
+              <h2 class="rc">Sobre mí</h2>
+              <img src="${IMG("assets/img/ignacio.jpg")}" alt="Retrato de ${esc(profile.name)}" width="200" loading="lazy" />
+              <div class="about__body">
+                ${profile.about.map((a) => `<p>${esc(a)}</p>`).join("")}
+                <ul class="tags">${profile.skills.map((s) => `<li class="rc">${esc(s)}</li>`).join("")}</ul>
+              </div>
+            </section>
+            <section id="contact">
+              <p class="eyebrow">¿Trabajamos juntos?</p>
+              <a class="mail rc" href="mailto:${profile.links.email}">${esc(profile.links.email)}</a>
+              <p><button type="button" class="copy" id="copy">Copiar correo</button></p>
+              <ul>
+                <li><a class="rc" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+                <li><a class="rc" href="${profile.links.behance}" target="_blank" rel="noopener">Behance ↗</a></li>
+              </ul>
+            </section>
+          </main>
+          <footer><p>© ${new Date().getFullYear()} ${esc(profile.name)}</p><p>Hecho a mano con HTML, CSS y tokens</p></footer>`;
+
+        document.getElementById("copy").addEventListener("click", (e) => {
+          navigator.clipboard?.writeText(profile.links.email).then(() => (e.target.textContent = "Copiado ✓"), () => {});
+        });
+
+        // ---------- Colores sueltos ----------
+        // En la auditoría del kit de Lyra, 14 de 54 colores no correspondían a un token.
+        // Aquí hay 14 valores casi iguales a un token, repartidos por la página.
+        const rogues = [
+          ["#141415", "--fg"], ["#2f5bfe", "--accent"], ["#6f6c67", "--muted"], ["#151414", "--fg"],
+          ["#706c66", "--muted"], ["#3060ff", "--accent"], ["#121212", "--fg"], ["#6e6b65", "--muted"],
+          ["#2e5bff", "--accent"], ["#1a1a1a", "--fg"], ["#737069", "--muted"], ["#141313", "--fg"],
+          ["#2f5cff", "--accent"], ["#6f6d66", "--muted"],
+        ];
+        const candidates = [...site.querySelectorAll(".rc")];
+        const step = candidates.length / rogues.length;
+        const rogueEls = rogues.map((r, i) => {
+          const el = candidates[Math.floor(i * step + step / 2)];
+          el.dataset.hex = `${r[0]} ≠ ${r[1]}`;
+          el.dataset.raw = r[0];
+          el.dataset.token = r[1];
+          return el;
+        });
+
+        // ---------- Capas ----------
+        const layers = [
+          { id: "color", label: "Color", tokens: [["--bg", "#f4f2ee"], ["--surface", "#fbfaf7"], ["--fg", "#141414"], ["--muted", "#6f6c66"], ["--line", "#d8d4cc"], ["--accent", "#2f5bff"]] },
+          { id: "type", label: "Tipografía", tokens: [["--serif", "Instrument Serif"], ["--sans", "Inter Tight"], ["--mono", "JetBrains Mono"], ["--display", "clamp(44px, 8vw, 112px)"], ["--body", "16px / 1.55"]] },
+          { id: "space", label: "Espaciado", tokens: [["--gutter", "clamp(16px, 4vw, 48px)"], ["--section", "clamp(64px, 10vw, 128px)"], ["--stack", "14px"], ["--grid", "1.2fr 1fr"]] },
+          { id: "radius", label: "Radios", tokens: [["--radius-img", "14px"], ["--radius-thumb", "6px"], ["--radius-pill", "999px"]] },
+          { id: "shadow", label: "Sombras", tokens: [["--shadow-card", "0 18px 40px -18px"], ["--shadow-nav", "0 10px 30px -20px"]] },
+        ];
+        const applied = new Set();
+        let left = 0;
+
+        const stepsEl = document.getElementById("steps");
+        stepsEl.innerHTML = layers
+          .map((l, i) => `<button type="button" class="tool__step" data-id="${l.id}" aria-pressed="false"><i>${i + 1}</i><span class="lbl">${l.label}</span></button>`)
+          .join("");
+        const msg = document.getElementById("msg");
+        const bar = document.getElementById("bar");
+        const pct = document.getElementById("pct");
+        const toast = document.getElementById("toast");
+        let toastT;
+
+        function showToast(layer) {
+          const isColor = layer.id === "color";
+          toast.innerHTML = `<b>Capa ${layers.indexOf(layer) + 1}: ${layer.label}</b><ul>${layer.tokens
+            .map((t) => `<li>${isColor ? `<span class="sw" style="background:${t[1]}"></span>` : ""}${t[0]}: ${t[1]}</li>`)
+            .join("")}</ul>`;
+          toast.classList.add("is-on");
+          clearTimeout(toastT);
+          toastT = setTimeout(() => toast.classList.remove("is-on"), 3200);
+        }
+
+        function update() {
+          const nextIdx = layers.findIndex((l) => !applied.has(l.id));
+          const blocked = left > 0;
+          stepsEl.querySelectorAll(".tool__step").forEach((b, i) => {
+            const on = applied.has(b.dataset.id);
+            b.setAttribute("aria-pressed", on);
+            b.disabled = !on && (i !== nextIdx || blocked);
+            b.classList.toggle("is-next", i === nextIdx && !blocked);
+          });
+          // 20 % por capa; cada color suelto resta su parte de la capa de color
+          let score = applied.size * 20 - (applied.has("color") ? (left / rogues.length) * 20 : 0);
+          score = Math.round(score);
+          bar.style.width = score + "%";
+          pct.textContent = score + "%";
+          if (applied.size === 0) {
+            msg.innerHTML = `<b>Este sitio todavía no tiene estilos.</b> <span>Aplica los tokens de uno en uno, partiendo por el color.</span>`;
+          } else if (blocked) {
+            msg.innerHTML = `<b>Quedan ${left} ${left === 1 ? "color" : "colores"} fuera de token.</b> <span>Están marcados en rojo. Haz clic en cada uno para pasarlo a su token.</span> <button type="button" id="fixall" style="text-decoration:underline">Corregir todos</button>`;
+          } else if (applied.size < layers.length) {
+            msg.innerHTML = `<b>${applied.size} de ${layers.length} capas.</b> <span>Sigue con ${layers[nextIdx].label.toLowerCase()}.</span>`;
+          } else {
+            msg.innerHTML = `<b>Listo: el sitio usa tokens en el 100 % de sus estilos.</b> <span>Así reviso un componente antes de certificarlo en Lyra.</span>`;
+          }
+          document.body.classList.toggle("hunt", blocked);
+        }
+
+        function fix(el, flash) {
+          if (!el.classList.contains("rogue")) return;
+          el.classList.remove("rogue");
+          el.style.color = "";
+          if (flash) {
+            el.classList.add("fixed-flash");
+            setTimeout(() => el.classList.remove("fixed-flash"), 900);
+          }
+          left--;
+        }
+
+        function apply(id, quiet) {
+          const layer = layers.find((l) => l.id === id);
+          document.body.classList.add("is-applying");
+          document.body.classList.add("t-" + id);
+          applied.add(id);
+          if (id === "color" && !quiet) {
+            rogueEls.forEach((el) => {
+              el.classList.add("rogue");
+              el.style.color = el.dataset.raw;
+            });
+            left = rogueEls.length;
+          }
+          if (!quiet) showToast(layer);
+          setTimeout(() => document.body.classList.remove("is-applying"), 600);
+          update();
+        }
+
+        stepsEl.addEventListener("click", (e) => {
+          const b = e.target.closest(".tool__step");
+          if (b && !b.disabled && !applied.has(b.dataset.id)) apply(b.dataset.id);
+        });
+        msg.addEventListener("click", (e) => {
+          if (e.target.id === "fixall") {
+            rogueEls.forEach((el) => fix(el, true));
+            update();
+          }
+        });
+        // Mientras hay colores sueltos, el clic sobre uno lo corrige (y no sigue el link)
+        site.addEventListener("click", (e) => {
+          if (!document.body.classList.contains("hunt")) return;
+          const el = e.target.closest(".rogue");
+          if (!el) return;
+          e.preventDefault();
+          fix(el, true);
+          update();
+        }, true);
+
+        document.getElementById("finish").addEventListener("click", () => {
+          rogueEls.forEach((el) => fix(el, false));
+          left = 0;
+          layers.forEach((l) => applied.has(l.id) || apply(l.id, true));
+          toast.classList.remove("is-on");
+          update();
+        });
+        document.getElementById("reset").addEventListener("click", () => {
+          layers.forEach((l) => document.body.classList.remove("t-" + l.id));
+          rogueEls.forEach((el) => {
+            el.classList.remove("rogue");
+            el.style.color = "";
+          });
+          applied.clear();
+          left = 0;
+          update();
+          scrollTo(0, 0);
+        });
+
+        update();
+
+        const tool = document.querySelector(".tool");
+        const setH = () => document.documentElement.style.setProperty("--toolh", tool.offsetHeight + "px");
+        setH();
+        new ResizeObserver(setH).observe(tool);
+      })();
+    </script>
+    <script src="../../js/switcher.js" data-root="../../" data-current="sin-estilos"></script>
+  </body>
+</html>

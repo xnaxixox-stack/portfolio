@@ -39,6 +39,20 @@ y una capa de interacciones que muestran el oficio:
 - Modo oscuro automático + toggle manual, responsive, y con `prefers-reduced-motion`
   se desactiva todo el movimiento.
 
+## Opciones de diseño
+
+Hay 4 versiones del sitio para comparar. Todas leen el contenido de `js/data.js` y
+comparten un selector abajo al centro (`js/switcher.js`):
+
+1. **Actual** (`index.html`): el sitio descrito arriba.
+2. **Panel de salidas** (`opciones/panel/`): el sitio es un tablero de aeropuerto con
+   letras de paleta. Cada proyecto es un vuelo y se abre como tarjeta de embarque.
+3. **Sin estilos** (`opciones/sin-estilos/`): la página parte como HTML sin CSS y el
+   visitante aplica los tokens por capas. En la capa de color aparecen 14 colores fuera
+   de token (como en la auditoría de Lyra) que hay que corregir para seguir.
+4. **El mapa** (`opciones/mapa/`): el grafo del mapa agéntico es la navegación. Se filtra
+   por año, y al soltar un proyecto sobre otro muestra lo que comparten. Tiene vista en texto.
+
 ## Publicación
 
 El sitio se publica con GitHub Pages desde la rama `main` (carpeta raíz). El
