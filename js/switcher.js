@@ -7,7 +7,7 @@
   const options = [
     { id: "actual", n: "1", label: "Actual", href: root + "index.html" },
     { id: "panel", n: "2", label: "Panel de salidas", href: root + "opciones/panel/index.html" },
-    { id: "sin-estilos", n: "3", label: "Sin estilos", href: root + "opciones/sin-estilos/index.html" },
+    { id: "particulas", n: "3", label: "Partículas", href: root + "opciones/particulas/index.html" },
     { id: "mapa", n: "4", label: "El mapa", href: root + "opciones/mapa/index.html" },
   ];
 
