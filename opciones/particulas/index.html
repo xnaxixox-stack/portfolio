@@ -172,11 +172,11 @@
                    <p class="hero__sub">${esc(profile.headline)}</p>`,
           },
           ...featured.map((p, i) => ({
-            shape: ["grid", "network", "seats", "sheet"][i],
+            shape: ["grid", "network", "seats", "sheet", "week"][i],
             label: p.title,
-            pal: [["#1a0b2e", "#f1e9ff", "#c084fc"], ["#06121f", "#d6ecff", "#4fd1c5"], ["#f3efe6", "#1b1b1b", "#ff4f6d"], ["#0f1f17", "#e6f4ea", "#34d27b"]][i],
+            pal: [["#1a0b2e", "#f1e9ff", "#c084fc"], ["#06121f", "#d6ecff", "#4fd1c5"], ["#f3efe6", "#1b1b1b", "#ff4f6d"], ["#0f1f17", "#e6f4ea", "#34d27b"], ["#1f1406", "#fff1dc", "#fca60b"]][i],
             html: `<p class="kicker">${pad(i + 1)} · ${esc(p.category)} · ${esc(p.year)}</p>
-                   ${kinetic(p.title, ["f-sans", "f-mono", "f-serif-i", "f-sans"][i])}
+                   ${kinetic(p.title, ["f-sans", "f-mono", "f-serif-i", "f-sans", "f-serif"][i])}
                    <p class="lede">${esc(p.summary)}</p>
                    <ul class="hl">${p.highlights.slice(0, 3).map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
                    <img class="shot" src="${IMG(p.cover)}" alt="${esc(p.title)}" loading="lazy" />
@@ -363,6 +363,31 @@
           }
         }
 
+        // Calendario semanal de Keyü: 7 días x 5 semanas, un día activo y la disponibilidad
+        function weekPoints(box, out) {
+          const r = rng(61);
+          const cols = 7, rows = 5;
+          const cell = Math.min(box.w / cols, box.h / (rows + 0.6));
+          const ox = box.x + (box.w - cell * cols) / 2, oy = box.y + (box.h - cell * (rows + 0.6)) / 2;
+          const active = 2 * cols + 2; // miércoles de la tercera semana
+          for (let i = 0; i < N; i++) {
+            const m = i % 10;
+            let k = i % (cols * rows);
+            if (m < 3) k = active; // el día activo concentra más partículas (relleno)
+            const cx = ox + (k % cols + 0.5) * cell, cy = oy + (Math.floor(k / cols) + 0.5) * cell;
+            const a = r() * Math.PI * 2;
+            if (k === active) {
+              const rr = cell * 0.4 * Math.sqrt(r());
+              out[2 * i] = cx + Math.cos(a) * rr; out[2 * i + 1] = cy + Math.sin(a) * rr;
+            } else if (m === 9 && k % cols < 5) {
+              // punto de disponibilidad bajo los días hábiles
+              out[2 * i] = cx + Math.cos(a) * cell * 0.06; out[2 * i + 1] = cy + cell * 0.38 + Math.sin(a) * cell * 0.06;
+            } else {
+              out[2 * i] = cx + Math.cos(a) * cell * 0.3; out[2 * i + 1] = cy + Math.sin(a) * cell * 0.3;
+            }
+          }
+        }
+
         // Una órbita por proyecto, repartidas en una grilla suelta
         function orbitPoints(box, out) {
           const r = rng(53);
@@ -427,6 +452,7 @@
             else if (s.shape === "network") networkPoints(box, out);
             else if (s.shape === "seats") seatPoints(box, out);
             else if (s.shape === "sheet") sheetPoints(box, out);
+            else if (s.shape === "week") weekPoints(box, out);
             else if (s.shape === "orbits") orbitPoints(box, out);
             else if (s.shape === "sphere") spherePoints(box, out, 0, 0);
             else if (s.shape === "at") textPoints("@", box, sans, out);

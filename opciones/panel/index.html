@@ -197,7 +197,7 @@
         const { profile, featured, projects } = window.PORTFOLIO;
         const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
         const IMG = (src) => "../../" + src;
-        const CHARS = " ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ0123456789·:-";
+        const CHARS = " ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚÜ0123456789·:-";
 
         document.getElementById("name").textContent = profile.name;
         document.getElementById("role").textContent = profile.role + " · " + profile.location;
@@ -213,15 +213,16 @@
           { ref: featured[1], code: "MA026", gate: "02", status: "A TIEMPO", tone: "green", short: "MAPA IA" },
           { ref: featured[2], code: "H2024", gate: "03", status: "EN VUELO", short: "SKY APP" },
           { ref: featured[3], code: "NX021", gate: "04", status: "ATERRIZÓ", short: "NINJA" },
+          { ref: featured[4], code: "KY019", gate: "05", status: "ATERRIZÓ", short: "KEYÜ" },
           // Resto de proyectos: código = dos letras del nombre + año; puerta correlativa
           ...projects.map((p, i) => ({
-            ref: p, code: p.title.replace(/[^A-Za-zÁÉÍÓÚÑ]/g, "").slice(0, 2).toUpperCase() + p.year.slice(-3), gate: pad2(5 + i),
+            ref: p, code: p.title.replace(/[^A-Za-zÁÉÍÓÚÑ]/g, "").slice(0, 2).toUpperCase() + p.year.slice(-3), gate: pad2(6 + i),
             status: p.kind === "grafica" ? "ATERRIZÓ" : "ARCHIVO", tone: "dim",
             short: SHORT[p.title] || p.title.toUpperCase().split(" ")[0].slice(0, 10),
             dest: DEST[p.title],
           })),
-          { kind: "about", code: "IG001", gate: pad2(5 + projects.length), status: "CHECK-IN", dest: "SOBRE MÍ", short: "SOBRE MÍ", year: "" },
-          { kind: "contact", code: "IG002", gate: pad2(6 + projects.length), status: "ABIERTO", tone: "green", dest: "CONTACTO", short: "CONTACTO", year: "HOY" },
+          { kind: "about", code: "IG001", gate: pad2(6 + projects.length), status: "CHECK-IN", dest: "SOBRE MÍ", short: "SOBRE MÍ", year: "" },
+          { kind: "contact", code: "IG002", gate: pad2(7 + projects.length), status: "ABIERTO", tone: "green", dest: "CONTACTO", short: "CONTACTO", year: "HOY" },
         ];
         flights.forEach((f) => {
           if (f.ref) {

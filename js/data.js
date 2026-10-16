@@ -112,6 +112,24 @@ window.PORTFOLIO = {
       ],
       tags: ["UX research", "LMS", "Gamificación", "Maze"],
     },
+    {
+      title: "Keyü",
+      category: "UX/UI · App iOS · Freelance",
+      client: "Keyü",
+      year: "2019",
+      cover: "assets/img/keyu/cover.jpg",
+      details: ["assets/img/keyu/recorrido.jpg", "assets/img/keyu/sistema-visual.jpg"],
+      summary:
+        "Keyü instala refrigeradores inteligentes en oficinas y los llena con comida de comercios y cocineros caseros, los üChefs. Diseñé su app iOS de punta a punta: descubrir qué hay, programar los pedidos de la semana, pagar y retirar.",
+      highlights: [
+        "Calendario semanal arriba del menú: cada plato queda asociado a un día de retiro, así el carro puede tener los almuerzos de toda la semana",
+        "Tarjetas con el tipo de oferente (comercio o üChef), su rating y el descuento, para decidir si confiar en alguien que no conoces",
+        "Checkout de cuatro pantallas sin formularios, con el saldo precargado como medio de pago por defecto",
+        "Calificación al recibir el pedido, que le da al comercio información directa sobre cada plato",
+        "Con los pedidos programados, el comercio cocina lo que se va a comer y bota menos comida",
+      ],
+      tags: ["iOS", "E-commerce", "Pedidos programados", "Freelance"],
+    },
   ],
 
   // Resto del trabajo, de Behance (behance.net/iggrandon3ec1). Los proyectos no
