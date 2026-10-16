@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Ignacio Grandón · Salidas</title>
+    <meta name="description" content="Portafolio de Ignacio Grandón como panel de salidas de aeropuerto." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Opción 2: el sitio es un panel de salidas con letras de paleta.
+         Cada proyecto es un vuelo; al abrirlo aparece como tarjeta de embarque. */
+      :root {
+        --board: #0b0b0a;
+        --cell: #1c1c1a;
+        --cell-edge: #2a2a27;
+        --amber: #f4c430;
+        --amber-dim: #8a7224;
+        --white: #ecebe7;
+        --muted: #7d7a73;
+        --paper: #f6f3ec;
+        --ink: #141414;
+        --ink-muted: #6f6c66;
+        --rule: #d8d4cc;
+        --green: #4fd18b;
+        --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+        --sans: "Inter Tight", system-ui, sans-serif;
+        --gutter: clamp(16px, 3.5vw, 48px);
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { min-height: 100%; }
+      body {
+        background: var(--board); color: var(--white);
+        font: 400 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased;
+        padding-bottom: 80px;
+      }
+      button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+      a { color: inherit; }
+      :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+      /* ---------- Cabecera del terminal ---------- */
+      .top {
+        display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;
+        padding: calc(20px + env(safe-area-inset-top)) var(--gutter) 18px;
+        border-bottom: 1px solid var(--cell-edge);
+      }
+      .top__brand { display: flex; flex-direction: column; gap: 4px; }
+      .top__name { font: 600 15px/1 var(--sans); letter-spacing: .01em; }
+      .top__role { color: var(--muted); font-size: 13px; }
+      .top__title {
+        display: flex; align-items: baseline; gap: 14px;
+        font: 700 clamp(28px, 5vw, 64px)/1 var(--sans); letter-spacing: -.02em;
+      }
+      .top__title small { font: 500 clamp(12px, 1.2vw, 15px)/1 var(--mono); color: var(--muted); letter-spacing: .12em; }
+      .top__clock { display: flex; align-items: center; gap: 10px; font: 500 12px/1 var(--mono); color: var(--muted); letter-spacing: .1em; }
+
+      /* ---------- Tablero ---------- */
+      .board { padding: 18px var(--gutter) 0; }
+      .board__head, .row { display: grid; grid-template-columns: var(--cols); column-gap: var(--colgap); align-items: center; }
+      .board__head {
+        padding: 0 10px 10px; color: var(--muted);
+        font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+      }
+      .rows { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+      .row {
+        width: 100%; text-align: left; padding: 8px 10px; border-radius: 6px;
+        transition: background .2s;
+      }
+      .row:hover, .row:focus-visible { background: #161614; }
+      .row:hover .flap, .row:focus-visible .flap { color: #fff3c4; }
+      .row__cells { display: flex; gap: var(--gap); }
+
+      .flap {
+        position: relative; display: inline-grid; place-items: center;
+        width: var(--cw); height: calc(var(--cw) * 1.42);
+        background: linear-gradient(var(--cell) 0 49%, #0e0e0d 49% 51%, #232320 51% 100%);
+        border-radius: 3px; color: var(--amber);
+        font: 700 calc(var(--cw) * .82)/1 var(--mono); text-transform: uppercase;
+        box-shadow: inset 0 -1px 0 rgba(255,255,255,.04), 0 1px 0 rgba(0,0,0,.6);
+      }
+      .flap.is-flipping { animation: flip .07s linear; }
+      @keyframes flip { 50% { transform: scaleY(.15); filter: brightness(1.6); } }
+      .row[data-tone="green"] .row__status .flap { color: var(--green); }
+      .row[data-tone="dim"] .flap { color: var(--amber-dim); }
+
+      .ticker {
+        margin: 26px var(--gutter) 0; overflow: hidden; border-top: 1px solid var(--cell-edge); border-bottom: 1px solid var(--cell-edge);
+        font: 500 13px/1 var(--mono); color: var(--amber); letter-spacing: .08em; white-space: nowrap;
+      }
+      .ticker__track { display: inline-flex; gap: 64px; padding: 14px 0; animation: tick 50s linear infinite; }
+      @keyframes tick { to { transform: translateX(-50%); } }
+      .legend { padding: 16px var(--gutter); color: var(--muted); font-size: 13px; }
+
+      /* ---------- Tarjeta de embarque ---------- */
+      dialog.pass {
+        margin: auto; border: 0; padding: 0; background: transparent; color: var(--ink);
+        width: min(1080px, calc(100vw - 24px)); max-height: calc(100dvh - 24px);
+      }
+      dialog.pass::backdrop { background: rgba(5,5,5,.78); backdrop-filter: blur(3px); }
+      dialog.pass[open] { animation: print .55s cubic-bezier(.16,1,.3,1); }
+      @keyframes print { from { transform: translateY(40px); clip-path: inset(0 0 100% 0); } to { transform: none; clip-path: inset(0); } }
+      .pass__paper {
+        display: grid; grid-template-columns: 1fr 260px; background: var(--paper);
+        border-radius: 14px; overflow: hidden; max-height: calc(100dvh - 24px);
+      }
+      .pass__main { padding: 28px clamp(20px, 3vw, 40px) 32px; overflow-y: auto; }
+      .pass__stub {
+        position: relative; padding: 28px 24px; background: #efebe2; border-left: 2px dashed var(--rule);
+        display: flex; flex-direction: column; gap: 18px; overflow-y: auto;
+      }
+      .pass__stub::before, .pass__stub::after {
+        content: ""; position: absolute; left: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--board);
+      }
+      .pass__stub::before { top: -12px; } .pass__stub::after { bottom: -12px; }
+      .pass__airline {
+        display: flex; justify-content: space-between; align-items: center; gap: 12px;
+        font: 600 11px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-muted);
+        padding-bottom: 18px; border-bottom: 1px solid var(--rule);
+      }
+      .pass__close { font: 500 12px/1 var(--mono); padding: 8px 10px; margin: -8px -10px; border-radius: 6px; color: var(--ink); }
+      .pass__close:hover { background: #e8e3d8; }
+      .pass__route { display: flex; align-items: center; gap: 16px; margin: 22px 0 6px; font: 700 clamp(36px, 6vw, 72px)/1 var(--sans); letter-spacing: -.03em; }
+      .pass__route i { flex: 1; height: 2px; background: repeating-linear-gradient(90deg, var(--ink) 0 8px, transparent 8px 14px); min-width: 30px; }
+      .pass__route-labels { display: flex; justify-content: space-between; color: var(--ink-muted); font-size: 13px; }
+      .pass__title { margin-top: 24px; font: 600 clamp(24px, 3vw, 34px)/1.1 var(--sans); letter-spacing: -.02em; }
+      .pass__cat { margin-top: 6px; color: var(--ink-muted); }
+      .pass__summary { margin-top: 18px; max-width: 64ch; font-size: 16px; }
+      .pass__list { margin-top: 18px; padding-left: 0; list-style: none; display: grid; gap: 8px; max-width: 70ch; }
+      .pass__list li { display: grid; grid-template-columns: 24px 1fr; font-size: 14.5px; }
+      .pass__list li::before { content: "✓"; font: 700 13px/1.6 var(--mono); color: var(--ink-muted); }
+      .pass__gallery { margin-top: 24px; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(240px, 46%); gap: 10px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+      .pass__gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; background: #e2ddd2; scroll-snap-align: start; }
+      .field { display: flex; flex-direction: column; gap: 4px; }
+      .field small { font: 500 10px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-muted); }
+      .field b { font: 700 20px/1.1 var(--mono); }
+      .field--grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+      .tags li { font: 500 11px/1 var(--mono); padding: 6px 8px; border: 1px solid var(--rule); border-radius: 4px; }
+      .barcode {
+        height: 64px; margin-top: auto;
+        background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 5px, transparent 5px 8px, var(--ink) 8px 11px, transparent 11px 12px);
+      }
+      .pass__cta { display: inline-flex; justify-content: center; padding: 12px 14px; border-radius: 8px; background: var(--ink); color: var(--paper); text-decoration: none; font-weight: 500; font-size: 14px; }
+      .pass__cta--ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+      .contact-big { margin-top: 18px; font: 600 clamp(22px, 3.6vw, 40px)/1.1 var(--sans); letter-spacing: -.02em; word-break: break-all; }
+      .about-photo { width: 120px; aspect-ratio: 1; object-fit: cover; border-radius: 8px; filter: grayscale(1); margin-top: 22px; }
+
+      @media (max-width: 760px) {
+        .pass__paper { grid-template-columns: 1fr; overflow-y: auto; }
+        .pass__main { overflow: visible; }
+        .pass__stub { border-left: 0; border-top: 2px dashed var(--rule); overflow: visible; }
+        .pass__stub::before { top: -13px; left: -12px; } .pass__stub::after { top: -13px; bottom: auto; left: auto; right: -12px; }
+        .barcode { height: 48px; }
+        .pass__gallery { grid-auto-columns: 82%; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ticker__track { animation: none; }
+        dialog.pass[open] { animation: none; }
+      }
+      @media print {
+        body { background: #fff; padding: 0; }
+        body > *:not(dialog) { display: none !important; }
+        dialog.pass { position: static; width: 100%; max-height: none; }
+        .pass__paper { max-height: none; }
+        .pass__close, .pass__print { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="top__brand">
+        <span class="top__name" id="name"></span>
+        <span class="top__role" id="role"></span>
+      </div>
+      <h1 class="top__title">Salidas <small>DEPARTURES · SCL</small></h1>
+      <div class="top__clock" aria-label="Hora en Santiago"><span>SANTIAGO</span><span class="row__cells" id="clock"></span></div>
+    </header>
+
+    <main class="board">
+      <div class="board__head" id="board-head" aria-hidden="true"></div>
+      <ul class="rows" id="rows"></ul>
+    </main>
+
+    <div class="ticker" aria-hidden="true"><div class="ticker__track" id="ticker"></div></div>
+    <p class="legend">Elige un vuelo para ver su tarjeta de embarque. Cada vuelo es un proyecto.</p>
+
+    <dialog class="pass" id="pass" aria-labelledby="pass-title"><div class="pass__paper" id="pass-paper"></div></dialog>
+
+    <script src="../../js/data.js"></script>
+    <script>
+      (function () {
+        const { profile, featured, projects } = window.PORTFOLIO;
+        const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const IMG = (src) => "../../" + src;
+        const CHARS = " ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ0123456789·:-";
+
+        document.getElementById("name").textContent = profile.name;
+        document.getElementById("role").textContent = profile.role + " · " + profile.location;
+
+        // Cada proyecto es un vuelo. Los códigos salen de datos reales del caso.
+        const flights = [
+          // LY208: los 208 componentes de Lyra. H2 es el código IATA de SKY.
+          { ref: featured[0], code: "LY208", gate: "01", status: "EMBARCANDO", tone: "green", short: "LYRA" },
+          { ref: featured[1], code: "MA026", gate: "02", status: "A TIEMPO", tone: "green", short: "MAPA IA" },
+          { ref: featured[2], code: "H2024", gate: "03", status: "EN VUELO", short: "SKY APP" },
+          { ref: featured[3], code: "NX021", gate: "04", status: "ATERRIZÓ", short: "NINJA" },
+          ...projects.map((p, i) => ({
+            ref: p, code: p.title.slice(0, 2).toUpperCase() + "017", gate: "0" + (5 + i), status: "ARCHIVO", tone: "dim",
+            short: ["PINCHÉ", "BCOESTADO", "SIXEVENT"][i] || p.title.toUpperCase(),
+          })),
+          { kind: "about", code: "IG001", gate: "08", status: "CHECK-IN", dest: "SOBRE MÍ", short: "SOBRE MÍ", year: "" },
+          { kind: "contact", code: "IG002", gate: "09", status: "ABIERTO", tone: "green", dest: "CONTACTO", short: "CONTACTO", year: "HOY" },
+        ];
+        flights.forEach((f) => {
+          if (f.ref) {
+            f.dest = f.ref.title.toUpperCase().replace(" BY BUK", "").replace(" DESIGN SYSTEM", "").replace(" DE LYRA", "");
+            f.year = f.ref.year === "Actual" ? "HOY" : f.ref.year.slice(-4);
+          }
+        });
+
+        // Columnas según el ancho: en móvil se esconden año y puerta.
+        let layout;
+        const layouts = {
+          wide: { cols: [["Año", "year", 4], ["Vuelo", "code", 5], ["Destino", "dest", 18], ["Puerta", "gate", 2], ["Estado", "status", 10]] },
+          narrow: { cols: [["Vuelo", "code", 5], ["Destino", "short", 10], ["Estado", "status", 10]] },
+        };
+
+        const fit = (text, n) => {
+          text = String(text);
+          return text.length > n ? text.slice(0, n) : text.padEnd(n, " ");
+        };
+        const cells = (text, n) =>
+          [...fit(text, n)].map((c) => `<span class="flap" data-c="${c}">${c === " " ? "&nbsp;" : c}</span>`).join("");
+
+        const rows = document.getElementById("rows");
+        const head = document.getElementById("board-head");
+
+        function render() {
+          const narrow = innerWidth < 760;
+          const next = narrow ? "narrow" : "wide";
+          const changed = next !== layout;
+          layout = next;
+          const L = layouts[layout];
+          const total = L.cols.reduce((s, c) => s + c[2], 0);
+          const gapCount = L.cols.length - 1;
+          const avail = Math.min(innerWidth, 1600) - 2 * Math.max(16, Math.min(48, innerWidth * 0.035)) - 20;
+          const gap = narrow ? 2 : 3;
+          const colgap = narrow ? 10 : 22;
+          const cw = Math.floor((avail - gapCount * colgap - (total - gapCount) * gap) / total);
+          document.documentElement.style.setProperty("--cw", Math.max(8, Math.min(cw, 34)) + "px");
+          document.documentElement.style.setProperty("--gap", gap + "px");
+          document.documentElement.style.setProperty("--colgap", colgap + "px");
+          const cols = L.cols.map((c) => `calc(${c[2]} * var(--cw) + ${c[2] - 1} * var(--gap))`).join(" ");
+          document.documentElement.style.setProperty("--cols", cols);
+          if (!changed) return;
+          head.innerHTML = L.cols.map((c) => `<span>${c[0]}</span>`).join("");
+          rows.innerHTML = flights
+            .map(
+              (f, i) => `<li><button class="row" type="button" data-i="${i}" data-tone="${f.tone || ""}"
+                aria-label="Vuelo ${f.code} a ${f.dest}, ${f.status.toLowerCase()}">
+                ${L.cols.map((c) => `<span class="row__cells row__${c[1]}">${cells(f[c[1]], c[2])}</span>`).join("")}
+              </button></li>`
+            )
+            .join("");
+          shuffleIn(rows.querySelectorAll(".flap"), true);
+        }
+
+        // Efecto de paletas: cada celda pasa por caracteres al azar hasta llegar al suyo.
+        function shuffleIn(list, stagger) {
+          if (reduce) return;
+          list.forEach((el, idx) => {
+            const target = el.dataset.c;
+            if (target === " ") return;
+            let steps = 6 + Math.floor(Math.random() * 10);
+            const delay = stagger ? (idx % 40) * 12 + Math.random() * 300 : Math.random() * 120;
+            setTimeout(function step() {
+              if (steps-- <= 0) {
+                el.textContent = target;
+                return;
+              }
+              el.textContent = CHARS[1 + Math.floor(Math.random() * (CHARS.length - 1))];
+              el.classList.remove("is-flipping");
+              void el.offsetWidth;
+              el.classList.add("is-flipping");
+              setTimeout(step, 55);
+            }, delay);
+          });
+        }
+
+        // Reloj de Santiago también en paletas
+        const clock = document.getElementById("clock");
+        const fmt = new Intl.DateTimeFormat("es-CL", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Santiago" });
+        let lastTime = "";
+        const tick = () => {
+          const t = fmt.format(new Date());
+          if (t === lastTime) return;
+          const prev = lastTime;
+          lastTime = t;
+          clock.innerHTML = cells(t, 5);
+          const flaps = [...clock.children].filter((_, i) => !prev || prev[i] !== t[i]);
+          shuffleIn(flaps, false);
+        };
+        tick();
+        setInterval(tick, 5000);
+
+        // Cada tanto un estado se actualiza, como en un panel real.
+        if (!reduce) {
+          setInterval(() => {
+            const btns = rows.querySelectorAll(".row");
+            const b = btns[Math.floor(Math.random() * btns.length)];
+            if (b) shuffleIn(b.querySelectorAll(".row__status .flap"), false);
+          }, 6000);
+        }
+
+        document.getElementById("ticker").innerHTML = (
+          `<span>Pasajero ${profile.name.toUpperCase()}, ${profile.role.toUpperCase()}, PRESENTARSE EN PUERTA 09</span>` +
+          `<span>HABILIDADES A BORDO: ${profile.skills.join(" · ").toUpperCase()}</span>` +
+          `<span>CONTACTO: ${profile.links.email.toUpperCase()}</span>`
+        ).repeat(2);
+
+        // ---------- Tarjeta de embarque ----------
+        const dlg = document.getElementById("pass");
+        const paper = document.getElementById("pass-paper");
+        const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+        function stub(f, extra) {
+          return `<aside class="pass__stub">
+            <div class="field"><small>Pasajero</small><b>${esc(profile.name.toUpperCase())}</b></div>
+            <div class="field--grid">
+              <div class="field"><small>Vuelo</small><b>${f.code}</b></div>
+              <div class="field"><small>Puerta</small><b>${f.gate}</b></div>
+              <div class="field"><small>Año</small><b>${esc(f.ref ? f.ref.year : "—")}</b></div>
+              <div class="field"><small>Estado</small><b>${esc(f.status)}</b></div>
+            </div>
+            ${extra || ""}
+            <div class="barcode" aria-hidden="true"></div>
+          </aside>`;
+        }
+
+        function open(i) {
+          const f = flights[i];
+          let main = "";
+          let extra = "";
+          const header = `<div class="pass__airline"><span>Tarjeta de embarque · ${esc(profile.name)}</span><button class="pass__close" type="button" data-close>Cerrar ✕</button></div>`;
+          if (f.ref) {
+            const p = f.ref;
+            const imgs = [p.cover, ...(p.details || [])];
+            main = `${header}
+              <div class="pass__route"><span>SCL</span><i></i><span>${f.code.slice(0, 2)}</span></div>
+              <div class="pass__route-labels"><span>Santiago</span><span>${esc(p.title)}</span></div>
+              <h2 class="pass__title" id="pass-title">${esc(p.title)}</h2>
+              <p class="pass__cat">${esc(p.category)} · ${esc(p.year)}</p>
+              ${p.summary ? `<p class="pass__summary">${esc(p.summary)}</p>` : ""}
+              ${p.highlights ? `<ul class="pass__list">${p.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}
+              <div class="pass__gallery">${imgs.map((s, j) => `<img src="${IMG(s)}" alt="${esc(p.title)}${j ? ", detalle " + j : ""}" loading="lazy" />`).join("")}</div>`;
+            extra = `${p.tags ? `<ul class="tags">${p.tags.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
+              ${p.url ? `<a class="pass__cta" href="${p.url}" target="_blank" rel="noopener">Ver en Behance ↗</a>` : ""}`;
+          } else if (f.kind === "about") {
+            main = `${header}
+              <div class="pass__route"><span>SCL</span><i></i><span>UX</span></div>
+              <div class="pass__route-labels"><span>Santiago</span><span>${esc(profile.role)}</span></div>
+              <h2 class="pass__title" id="pass-title">Sobre mí</h2>
+              <img class="about-photo" src="${IMG("assets/img/ignacio.jpg")}" alt="Retrato de ${esc(profile.name)}" />
+              ${profile.about.map((a) => `<p class="pass__summary">${esc(a)}</p>`).join("")}`;
+            extra = `<ul class="tags">${profile.skills.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+              <button class="pass__cta pass__print" type="button" data-print>Imprimir tarjeta</button>`;
+          } else {
+            const l = profile.links;
+            main = `${header}
+              <div class="pass__route"><span>SCL</span><i></i><span>TÚ</span></div>
+              <div class="pass__route-labels"><span>Santiago</span><span>Donde estés</span></div>
+              <h2 class="pass__title" id="pass-title">¿Trabajamos juntos?</h2>
+              <a class="contact-big" href="mailto:${l.email}">${esc(l.email)}</a>`;
+            extra = `<button class="pass__cta" type="button" data-copy>Copiar correo</button>
+              <a class="pass__cta pass__cta--ghost" href="${l.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>
+              <a class="pass__cta pass__cta--ghost" href="${l.behance}" target="_blank" rel="noopener">Behance ↗</a>`;
+          }
+          paper.innerHTML = `<div class="pass__main">${main}</div>${stub(f, extra)}`;
+          dlg.showModal();
+        }
+
+        rows.addEventListener("click", (e) => {
+          const b = e.target.closest(".row");
+          if (b) open(+b.dataset.i);
+        });
+        dlg.addEventListener("click", (e) => {
+          if (e.target === dlg || e.target.closest("[data-close]")) dlg.close();
+          if (e.target.closest("[data-print]")) print();
+          const copy = e.target.closest("[data-copy]");
+          if (copy) {
+            navigator.clipboard?.writeText(profile.links.email).then(() => (copy.textContent = "Copiado ✓"), () => {});
+          }
+        });
+
+        render();
+        // Al cambiar el ancho se recalcula el tamaño de las celdas; solo se
+        // vuelve a armar (y animar) si cambia de layout.
+        addEventListener("resize", render);
+      })();
+    </script>
+    <script src="../../js/switcher.js" data-root="../../" data-current="panel"></script>
+  </body>
+</html>
