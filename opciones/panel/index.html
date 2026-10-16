@@ -205,8 +205,8 @@
         // Cada proyecto es un vuelo. Los códigos salen de datos reales del caso.
         const pad2 = (n) => String(n).padStart(2, "0");
         // Nombres cortos para el tablero (móvil: 10 letras; escritorio: 18)
-        const SHORT = { "App BancoEstado": "BCOESTADO", "Santiago Celebra Bajo la Misma Estrella": "STGO 2017", "Motion Graphics": "MOTION", "Exploraciones Mineras": "EXPLORA", "Becas Nestlé": "BECAS", "Recreos Nutritivos": "RECREOS", "Sadia Food Comedy": "SADIA" };
-        const DEST = { "Santiago Celebra Bajo la Misma Estrella": "SANTIAGO CELEBRA", "Exploraciones Mineras": "EXPLORACIONES MIN." };
+        const SHORT = { "App BancoEstado": "BCOESTADO" };
+        const DEST = {};
         const flights = [
           // LY208: los 208 componentes de Lyra. H2 es el código IATA de SKY.
           { ref: featured[0], code: "LY208", gate: "01", status: "EMBARCANDO", tone: "green", short: "LYRA" },
@@ -217,7 +217,7 @@
           // Resto de proyectos: código = dos letras del nombre + año; puerta correlativa
           ...projects.map((p, i) => ({
             ref: p, code: p.title.replace(/[^A-Za-zÁÉÍÓÚÑ]/g, "").slice(0, 2).toUpperCase() + p.year.slice(-3), gate: pad2(6 + i),
-            status: p.kind === "grafica" ? "ATERRIZÓ" : "ARCHIVO", tone: "dim",
+            status: "ARCHIVO", tone: "dim",
             short: SHORT[p.title] || p.title.toUpperCase().split(" ")[0].slice(0, 10),
             dest: DEST[p.title],
           })),
