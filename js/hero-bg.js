@@ -8,6 +8,12 @@
   const canvas = hero && hero.querySelector(".hero__bg");
   if (!canvas) return;
 
+  // Con "ahorro de datos" activado se deja el degradado CSS, sin animación WebGL
+  if (navigator.connection && navigator.connection.saveData) {
+    canvas.remove();
+    return;
+  }
+
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Posición del mouse suavizada (0..1 dentro del hero) e intensidad del efecto

@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Ignacio Grandón</title>
     <meta name="description" content="Portafolio de Ignacio Grandón, diseñador UX/UI y de design systems en Chile." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Assistant:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- El contenido se pide apenas empieza a cargar la página, en paralelo con el CSS -->
+    <script>
+      window.PORTFOLIO_READY = fetch("content/portfolio.json").then((r) => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      });
+    </script>
+    <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
@@ -126,7 +128,7 @@
       <section id="about" class="section about">
         <div class="about__aside">
           <h2>Sobre mí</h2>
-          <img class="about__photo" src="assets/img/ignacio.jpg" alt="Retrato de Ignacio Grandón" loading="lazy" />
+          <img class="about__photo" src="assets/img/ignacio.webp" alt="Retrato de Ignacio Grandón" loading="lazy" />
         </div>
         <div class="about__body">
           <div id="about-text"></div>
@@ -158,10 +160,20 @@
 
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/hero-bg.js"></script>
-    <script src="js/cursor.js"></script>
-    <script src="js/inspect.js"></script>
-    <script src="js/lab.js"></script>
-    <script src="js/project-dialog.js"></script>
+    <script>
+      // Lo que no hace falta para leer la portada (fondo animado, cursor, modo inspección,
+      // laboratorio, ficha de proyecto) se pide recién cuando el contenido ya está en
+      // pantalla, para que en redes lentas no le quite ancho de banda.
+      window.PORTFOLIO_READY.then(() =>
+        requestAnimationFrame(() =>
+          ["js/hero-bg.js", "js/cursor.js", "js/inspect.js", "js/lab.js", "js/project-dialog.js"].forEach((src) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.async = false;
+            document.body.appendChild(script);
+          })
+        )
+      );
+    </script>
   </body>
 </html>

@@ -1,5 +1,5 @@
-(function () {
-  const { profile, featured, projects } = window.PORTFOLIO;
+// Arma el sitio cuando llega el contenido (js/data.js lo pide al inicio de la carga)
+window.PORTFOLIO_READY.then(({ profile, featured, projects }) => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
   const pad = (n) => String(n).padStart(2, "0");
@@ -35,7 +35,7 @@
               .map(
                 (src, j) =>
                   `<img src="${src}" alt="${j ? `${p.title}, detalle ${j}` : p.title}" class="${j ? "" : "is-active"}" ${
-                    i > 0 || j > 0 ? 'loading="lazy"' : ""
+                    i > 0 || j > 0 ? 'loading="lazy" decoding="async"' : ""
                   } />`
               )
               .join("")}
@@ -324,4 +324,4 @@
       el.classList.add("is-pending");
     });
   }
-})();
+});

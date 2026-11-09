@@ -30,10 +30,10 @@
       "title": "Lyra Design System",
       "category": "Design system · SKY Airline",
       "year": "Actual",
-      "cover": "assets/img/lyra.jpg",
+      "cover": "assets/img/lyra.webp",
       "details": [
-        "assets/img/lyra-1.jpg",
-        "assets/img/lyra-2.jpg"
+        "assets/img/lyra-1.webp",
+        "assets/img/lyra-2.webp"
       ],
       "summary": "Lyra es el sistema de tokens y componentes que comparten los dos negocios de SKY, retail (pasajeros) y corporativo (empresas), en la web Vue 3 y la app React Native. Me encargo de mantenerlo, configurarlo y hacerlo crecer.",
       "highlights": [
@@ -54,10 +54,10 @@
       "title": "Mapa agéntico de Lyra",
       "category": "IA aplicada al design system",
       "year": "2026",
-      "cover": "assets/img/mapa-agentico.jpg",
+      "cover": "assets/img/mapa-agentico.webp",
       "details": [
-        "assets/img/mapa-agentico-1.jpg",
-        "assets/img/mapa-agentico-2.jpg"
+        "assets/img/mapa-agentico-1.webp",
+        "assets/img/mapa-agentico-2.webp"
       ],
       "summary": "Un repositorio que le da a la IA el contexto de Lyra: los 208 componentes mapeados, los tokens en una sola fuente y comandos para auditar, sincronizar con Figma, generar componentes y corregir valores escritos a mano en el código.",
       "highlights": [
@@ -77,10 +77,10 @@
       "title": "SKY Airline App",
       "category": "UX/UI · App móvil y flujo de compra",
       "year": "2024",
-      "cover": "assets/img/sky-airline-app.jpg",
+      "cover": "assets/img/sky-airline-app.webp",
       "details": [
-        "assets/img/sky-airline-app-1.jpg",
-        "assets/img/sky-airline-app-2.jpg"
+        "assets/img/sky-airline-app-1.webp",
+        "assets/img/sky-airline-app-2.webp"
       ],
       "url": "https://www.behance.net/gallery/210750507/SKY-Airline-APP",
       "summary": "App de SKY, aerolínea low cost con operaciones en Chile y Perú y vuelos a destinos nacionales e internacionales. Desde la app se buscan y compran vuelos, se revisa el estado del vuelo, se hace el check-in y se lleva la tarjeta de embarque en el teléfono. En la web trabajo en el flujo de compra SKLY.",
@@ -102,17 +102,17 @@
       "title": "Ninja Excel by Buk",
       "category": "UX/UI · Buk Capacitaciones",
       "year": "2020–2022",
-      "cover": "assets/img/ninja-excel.jpg",
+      "cover": "assets/img/ninja-excel.webp",
       "details": [
-        "assets/img/ninja-excel-1.jpg",
-        "assets/img/ninja-excel-2.jpg",
-        "assets/img/behance/ninja-excel/03.jpg",
-        "assets/img/behance/ninja-excel/04.jpg",
-        "assets/img/behance/ninja-excel/05.jpg",
-        "assets/img/behance/ninja-excel/06.jpg",
-        "assets/img/behance/ninja-excel/07.jpg",
-        "assets/img/behance/ninja-excel/08.jpg",
-        "assets/img/behance/ninja-excel/09.jpg"
+        "assets/img/ninja-excel-1.webp",
+        "assets/img/ninja-excel-2.webp",
+        "assets/img/behance/ninja-excel/03.webp",
+        "assets/img/behance/ninja-excel/04.webp",
+        "assets/img/behance/ninja-excel/05.webp",
+        "assets/img/behance/ninja-excel/06.webp",
+        "assets/img/behance/ninja-excel/07.webp",
+        "assets/img/behance/ninja-excel/08.webp",
+        "assets/img/behance/ninja-excel/09.webp"
       ],
       "url": "https://www.behance.net/gallery/148445075/Ninja-Excel",
       "summary": "Plataforma de capacitación en Microsoft Excel para empresas. Los colaboradores aprenden y practican dentro del mismo Excel, con feedback inmediato, y los administradores siguen el avance de sus equipos. Buk la adquirió en 2021 y la integró a su módulo de capacitaciones.",
@@ -136,18 +136,18 @@
       "category": "UX/UI · App iOS · Freelance",
       "client": "Keyü",
       "year": "2019",
-      "cover": "assets/img/keyu/cover.jpg",
+      "cover": "assets/img/keyu/cover.webp",
       "details": [
-        "assets/img/keyu/03-primer-contacto.jpg",
-        "assets/img/keyu/06-descubrir.jpg",
-        "assets/img/keyu/07-elegir-bien.jpg",
-        "assets/img/keyu/08-programar.jpg",
-        "assets/img/keyu/09-checkout.jpg",
-        "assets/img/keyu/10-post-compra.jpg",
-        "assets/img/keyu/11-despacho.jpg",
-        "assets/img/keyu/05-recorrido.jpg",
-        "assets/img/keyu/02-contexto.jpg",
-        "assets/img/keyu/12-sistema-visual.jpg"
+        "assets/img/keyu/03-primer-contacto.webp",
+        "assets/img/keyu/06-descubrir.webp",
+        "assets/img/keyu/07-elegir-bien.webp",
+        "assets/img/keyu/08-programar.webp",
+        "assets/img/keyu/09-checkout.webp",
+        "assets/img/keyu/10-post-compra.webp",
+        "assets/img/keyu/11-despacho.webp",
+        "assets/img/keyu/05-recorrido.webp",
+        "assets/img/keyu/02-contexto.webp",
+        "assets/img/keyu/12-sistema-visual.webp"
       ],
       "url": "https://www.behance.net/gallery/257178359/Keyue-App",
       "summary": "Comida real, programada y sin desperdicio. Keyü instala refrigeradores inteligentes en oficinas, los llena con comida de comercios y cocineros caseros (los üChefs) y también despacha a domicilio. Diseñé su app iOS de punta a punta, del research a la UI.",
@@ -172,11 +172,11 @@
       "title": "Pinché App",
       "category": "App móvil",
       "year": "2017",
-      "cover": "assets/img/pinche-app.jpg",
+      "cover": "assets/img/pinche-app.webp",
       "details": [
-        "assets/img/behance/pinche/01.jpg",
-        "assets/img/behance/pinche/03.jpg",
-        "assets/img/behance/pinche/04.jpg"
+        "assets/img/behance/pinche/01.webp",
+        "assets/img/behance/pinche/03.webp",
+        "assets/img/behance/pinche/04.webp"
       ],
       "url": "https://www.behance.net/gallery/52553489/Pinch-App",
       "summary": "App para encontrar talleres de bicicleta cerca de donde estás. Diseñé la marca y la app.",
@@ -195,12 +195,12 @@
       "title": "App BancoEstado",
       "category": "App móvil",
       "year": "2017",
-      "cover": "assets/img/bancoestado.jpg",
+      "cover": "assets/img/bancoestado.webp",
       "details": [
-        "assets/img/behance/bancoestado/02.jpg",
-        "assets/img/behance/bancoestado/03.jpg",
-        "assets/img/behance/bancoestado/04.jpg",
-        "assets/img/behance/bancoestado/05.jpg"
+        "assets/img/behance/bancoestado/02.webp",
+        "assets/img/behance/bancoestado/03.webp",
+        "assets/img/behance/bancoestado/04.webp",
+        "assets/img/behance/bancoestado/05.webp"
       ],
       "url": "https://www.behance.net/gallery/52574921/App-BancoEstado",
       "summary": "Propuesta de rediseño para la app de BancoEstado, centrada en las cuentas y las transferencias.",
@@ -219,13 +219,13 @@
       "title": "Sixevent",
       "category": "Sistema de productividad y marca",
       "year": "2017",
-      "cover": "assets/img/sixevent.jpg",
+      "cover": "assets/img/sixevent.webp",
       "details": [
-        "assets/img/behance/sixevent/02.jpg",
-        "assets/img/behance/sixevent/03.jpg",
-        "assets/img/behance/sixevent/04.jpg",
-        "assets/img/behance/sixevent/05.jpg",
-        "assets/img/behance/sixevent/06.jpg"
+        "assets/img/behance/sixevent/02.webp",
+        "assets/img/behance/sixevent/03.webp",
+        "assets/img/behance/sixevent/04.webp",
+        "assets/img/behance/sixevent/05.webp",
+        "assets/img/behance/sixevent/06.webp"
       ],
       "url": "https://www.behance.net/gallery/52572877/Sixevent-Productivity-System-Brand",
       "summary": "Herramienta web de productividad para equipos, hecha para una startup chilena. Diseñé la interfaz y la marca.",

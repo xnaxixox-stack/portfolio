@@ -61,6 +61,20 @@ y una capa de interacciones que muestran el oficio:
 - Modo oscuro automático + toggle manual, responsive, y con `prefers-reduced-motion`
   se desactiva todo el movimiento.
 
+## Rendimiento
+
+Probado simulando un celular de gama media en 4G débil y en 3G malo (2 s de latencia,
+400 kbps). Lo que lo mantiene rápido:
+
+- El JSON del contenido se pide en el `<head>`, en paralelo con el CSS.
+- Las fuentes están en `assets/fonts/` (no en Google Fonts) y la del titular se precarga.
+- Las imágenes son WebP de hasta 1400 px; las que no están en pantalla cargan después.
+- Los scripts que no hacen falta para leer la portada se piden cuando ya hay contenido.
+- Con "ahorro de datos" activado, el fondo del hero no usa WebGL.
+
+Al subir imágenes nuevas conviene mantener ese criterio: WebP o JPG de hasta 1400 px de
+ancho y menos de 200 KB.
+
 ## Publicación
 
 El sitio se publica con GitHub Pages desde la rama `main` (carpeta raíz). El

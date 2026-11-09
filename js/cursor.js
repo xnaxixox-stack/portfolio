@@ -43,7 +43,8 @@
 
   // Magnéticos: el elemento se acerca un poco al cursor y vuelve al salir
   if (reduce) return;
-  document.querySelectorAll("[data-magnetic]").forEach((el) => {
+  // Se enlazan cuando el contenido ya está en la página (algunos enlaces los arma main.js)
+  (window.PORTFOLIO_READY || Promise.resolve()).then(() => document.querySelectorAll("[data-magnetic]").forEach((el) => {
     const strength = 0.3;
     el.addEventListener("pointermove", (e) => {
       const r = el.getBoundingClientRect();
@@ -52,5 +53,5 @@
       el.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
     });
     el.addEventListener("pointerleave", () => (el.style.transform = ""));
-  });
+  }));
 })();

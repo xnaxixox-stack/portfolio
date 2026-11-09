@@ -83,13 +83,13 @@ content:
             label: Portada
             type: image
             required: true
-            description: Primera imagen de la galería del caso.
+            description: Primera imagen de la galería del caso. Para que cargue rápido en celulares: WebP o JPG de hasta 1400 px de ancho y menos de 200 KB.
           - name: details
             label: Imágenes de detalle
             type: image
             options:
               multiple: true
-            description: Siguen a la portada en la galería, en este orden.
+            description: Siguen a la portada en la galería, en este orden. Para que cargue rápido en celulares: WebP o JPG de hasta 1400 px de ancho y menos de 200 KB.
           - name: url
             label: Enlace al caso
             type: string
@@ -126,11 +126,13 @@ content:
             label: Portada
             type: image
             required: true
+            description: Para que cargue rápido en celulares: WebP o JPG de hasta 1400 px de ancho y menos de 200 KB.
           - name: details
             label: Imágenes de detalle
             type: image
             options:
               multiple: true
+            description: Para que cargue rápido en celulares: WebP o JPG de hasta 1400 px de ancho y menos de 200 KB.
           - name: url
             label: Enlace
             type: string
