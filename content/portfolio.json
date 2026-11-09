@@ -56,10 +56,11 @@
       "title": "Mapa agéntico de Lyra",
       "category": "IA aplicada al design system",
       "year": "2026",
-      "cover": "assets/img/mapa-agentico.webp",
+      "cover": "assets/img/24 · Mapa agéntico@1x.webp",
       "details": [
-        "assets/img/mapa-agentico-1.webp",
-        "assets/img/mapa-agentico-2.webp"
+        "assets/img/25 · Del repo al plugin@1x.webp",
+        "assets/img/27 · Del pedido a la pantalla@1x.webp",
+        "assets/img/26 · Cinco skills@1x.webp"
       ],
       "summary": "Un repositorio que le da a la IA el contexto de Lyra: los 208 componentes mapeados, los tokens en una sola fuente y comandos para auditar, sincronizar con Figma, generar componentes y corregir valores escritos a mano en el código.",
       "highlights": [
