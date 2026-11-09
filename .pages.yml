@@ -1,0 +1,147 @@
+# Configuración de Pages CMS (https://app.pagescms.org).
+# Define qué se puede editar del portafolio y cómo se ve el formulario.
+# Todo se guarda en content/portfolio.json y las imágenes en assets/img.
+
+media:
+  input: assets/img
+  output: assets/img
+  extensions: [jpg, jpeg, png, webp, gif, svg]
+
+content:
+  - name: portfolio
+    label: Portafolio
+    type: file
+    path: content/portfolio.json
+    format: json
+    fields:
+      - name: profile
+        label: Perfil
+        type: object
+        fields:
+          - name: name
+            label: Nombre
+            type: string
+            required: true
+          - name: role
+            label: Rol
+            type: string
+            description: Aparece en el menú y bajo el titular (ej. Diseñador UX/UI · Design Systems).
+          - name: location
+            label: Ubicación
+            type: string
+          - name: headline
+            label: Titular
+            type: text
+            description: La frase grande de la portada. Mejor si es corta.
+          - name: about
+            label: Sobre mí
+            type: text
+            list: true
+            description: Cada elemento es un párrafo.
+          - name: skills
+            label: Habilidades
+            type: string
+            list: true
+            description: Se usan en la cinta animada y en las etiquetas de "Sobre mí".
+          - name: links
+            label: Enlaces
+            type: object
+            fields:
+              - name: email
+                label: Correo
+                type: string
+              - name: behance
+                label: Behance
+                type: string
+              - name: linkedin
+                label: LinkedIn
+                type: string
+
+      - name: featured
+        label: Casos destacados
+        type: object
+        list: true
+        description: Los casos grandes. El orden de la lista es el orden en el sitio.
+        fields:
+          - name: title
+            label: Título
+            type: string
+            required: true
+          - name: category
+            label: Categoría
+            type: string
+            description: Ej. UX/UI · App móvil y flujo de compra
+          - name: client
+            label: Cliente
+            type: string
+            description: Opcional.
+          - name: year
+            label: Año
+            type: string
+            description: Texto libre, ej. 2024, 2020–2022 o Actual.
+          - name: cover
+            label: Portada
+            type: image
+            required: true
+            description: Primera imagen de la galería del caso.
+          - name: details
+            label: Imágenes de detalle
+            type: image
+            options:
+              multiple: true
+            description: Siguen a la portada en la galería, en este orden.
+          - name: url
+            label: Enlace al caso
+            type: string
+            description: Opcional (ej. Behance). Si queda vacío no se muestra el botón.
+          - name: summary
+            label: Resumen
+            type: text
+          - name: highlights
+            label: Puntos clave
+            type: text
+            list: true
+          - name: tags
+            label: Etiquetas
+            type: string
+            list: true
+
+      - name: projects
+        label: Más proyectos
+        type: object
+        list: true
+        description: La lista de proyectos bajo los casos destacados.
+        fields:
+          - name: title
+            label: Título
+            type: string
+            required: true
+          - name: category
+            label: Categoría
+            type: string
+          - name: year
+            label: Año
+            type: string
+          - name: cover
+            label: Portada
+            type: image
+            required: true
+          - name: details
+            label: Imágenes de detalle
+            type: image
+            options:
+              multiple: true
+          - name: url
+            label: Enlace
+            type: string
+          - name: summary
+            label: Resumen
+            type: text
+          - name: highlights
+            label: Puntos clave
+            type: text
+            list: true
+          - name: tags
+            label: Etiquetas
+            type: string
+            list: true

@@ -4,7 +4,7 @@ Sitio portafolio minimalista, estático (HTML + CSS + JS, sin build).
 
 ## Ver en local
 
-Abre `index.html` en el navegador, o:
+Hace falta un servidor local (el contenido se lee de un JSON):
 
 ```sh
 npx serve .
@@ -12,9 +12,31 @@ npx serve .
 
 ## Editar contenido
 
-Todo el contenido vive en `js/data.js`: perfil, casos destacados (`featured`) y
-resto de proyectos (`projects`). Proyectos de Behance y trabajo en SKY Airline; imágenes de
-[Behance](https://www.behance.net/iggrandon3ec1); las imágenes están en `assets/img/`.
+Todo el texto y las imágenes del sitio salen de `content/portfolio.json`: perfil,
+casos destacados (`featured`) y más proyectos (`projects`). Las cuatro versiones del
+sitio leen ese mismo archivo (lo carga `js/data.js`). Las imágenes están en `assets/img/`.
+
+### Con el editor visual (Pages CMS)
+
+1. Entra a [app.pagescms.org](https://app.pagescms.org) e inicia sesión con GitHub.
+2. Autoriza la app en el repositorio `portfolio` y ábrelo; elige la rama que publica el sitio.
+3. En **Portafolio** aparece un formulario con el perfil, los casos y los proyectos:
+   cambia textos, sube imágenes, agrega o reordena casos y guarda.
+4. Cada guardado es un commit en el repositorio; GitHub Pages publica el cambio en uno o
+   dos minutos.
+
+La configuración del formulario está en `.pages.yml`. Las imágenes que subas desde el
+editor quedan en `assets/img/`.
+
+### A mano
+
+Edita `content/portfolio.json` directamente (en GitHub o en tu editor) y sube el cambio.
+Para ver el sitio en local hace falta un servidor, porque el navegador no deja leer el
+JSON abriendo `index.html` con doble clic:
+
+```sh
+npx serve .
+```
 
 ## Decisiones de diseño
 
