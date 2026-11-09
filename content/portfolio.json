@@ -32,7 +32,9 @@
       "year": "Actual",
       "cover": "assets/img/10 · Dos modos en isométrico@1x.webp",
       "details": [
+        "assets/img/21 · ANC · Anatomía de la familia anc-@1x.webp",
         "assets/img/lyra-1.webp",
+        "assets/img/23 · ANC · Desktop@1x.webp",
         "assets/img/lyra-2.webp"
       ],
       "summary": "Lyra es el sistema de tokens y componentes que comparten los dos negocios de SKY, retail (pasajeros) y corporativo (empresas), en la web Vue 3 y la app React Native. Me encargo de mantenerlo, configurarlo y hacerlo crecer.",
