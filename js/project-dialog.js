@@ -1,6 +1,6 @@
 // Ficha de proyecto: un diálogo con resumen, puntos clave, galería y link a Behance.
-// La usan las opciones que no tienen una vista de detalle propia.
-// Uso: PortfolioDialog.open(proyecto, { root: "../../" })
+// La usa la lista de "Más proyectos" (js/main.js).
+// Uso: PortfolioDialog.open(proyecto, { list: proyectos })
 (function () {
   const css = `
   .pdlg{margin:auto;border:0;padding:0;width:min(980px,calc(100vw - 24px));max-height:calc(100dvh - 24px);

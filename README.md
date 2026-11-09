@@ -13,8 +13,8 @@ npx serve .
 ## Editar contenido
 
 Todo el texto y las imágenes del sitio salen de `content/portfolio.json`: perfil,
-casos destacados (`featured`) y más proyectos (`projects`). Las cuatro versiones del
-sitio leen ese mismo archivo (lo carga `js/data.js`). Las imágenes están en `assets/img/`.
+casos destacados (`featured`) y más proyectos (`projects`). El sitio lee ese
+archivo a través de `js/data.js`. Las imágenes están en `assets/img/`.
 
 ### Con el editor visual (Pages CMS)
 
@@ -60,23 +60,6 @@ y una capa de interacciones que muestran el oficio:
 - Correo de contacto con una ola letra por letra.
 - Modo oscuro automático + toggle manual, responsive, y con `prefers-reduced-motion`
   se desactiva todo el movimiento.
-
-## Opciones de diseño
-
-Hay 4 versiones del sitio para comparar. Todas leen el contenido de `js/data.js` y
-comparten un selector abajo al centro (`js/switcher.js`):
-
-1. **Actual** (`index.html`): el sitio descrito arriba.
-2. **Panel de salidas** (`opciones/panel/`): el sitio es un tablero de aeropuerto con
-   letras de paleta. Cada proyecto es un vuelo y se abre como tarjeta de embarque.
-3. **Partículas** (`opciones/particulas/`): miles de partículas forman una figura por
-   sección (el nombre, la grilla de 208 componentes de Lyra, el grafo del mapa, el mapa de
-   asientos, la planilla de Ninja Excel, una órbita por proyecto, una esfera y una @). El scroll
-   cambia la figura, los colores y la tipografía. El mouse o el dedo empuja las partículas,
-   mantener presionado las junta y un toque las hace explotar. Las letras de los títulos
-   cambian de grosor según la cercanía del puntero y se inclinan con la velocidad del scroll.
-4. **El mapa** (`opciones/mapa/`): el grafo del mapa agéntico es la navegación. Se filtra
-   por año, y al soltar un proyecto sobre otro muestra lo que comparten. Tiene vista en texto.
 
 ## Publicación
 

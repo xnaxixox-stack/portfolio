@@ -2,7 +2,7 @@
 //
 // El contenido se edita en content/portfolio.json, a mano o desde Pages CMS
 // (app.pagescms.org, configurado en .pages.yml). Este archivo solo lo lee y lo deja
-// en window.PORTFOLIO para todas las versiones del sitio.
+// en window.PORTFOLIO para el sitio.
 //
 // La carga es síncrona a propósito: las páginas leen window.PORTFOLIO apenas se
 // carga este script, y el JSON es un archivo chico del mismo sitio. Necesita un
