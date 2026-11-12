@@ -30,98 +30,33 @@
   "featured": [
     {
       "title": "Lyra Design System",
-      "category": "Design system · SKY Airline",
+      "category": "Design system · IA aplicada",
       "year": "2023–Actual",
       "cover": "assets/img/10 · Dos modos en isométrico@1x-2.webp",
       "details": [
         "assets/img/21 · ANC · Anatomía de la familia anc-@1x.webp",
         "assets/img/lyra-1.webp",
         "assets/img/23 · ANC · Desktop@1x.webp",
-        "assets/img/lyra-2.webp"
-      ],
-      "summary": "Lyra es el sistema de tokens y componentes que comparten los dos negocios de SKY, retail (pasajeros) y corporativo (empresas), en la web Vue 3 y la app React Native. Me encargo de mantenerlo, configurarlo y hacerlo crecer.",
-      "highlights": [
-        "215 componentes en catálogo y 208 mapeados de Figma a código, con documentación y gobernanza para retail (SKLY) y el canal B2B SKY Corporativo",
-        "Migración de la librería a Figma Variables (color, espaciado y radios), con una capa semántica de tokens y el tema del canal corporativo redefinido",
-        "Auditoría de design tokens sobre 35 bundles y más de 208 componentes: 26 % de colores fuera de canon y 97 % de espaciados fuera de la escala de 8 pt, base del plan de normalización",
-        "Lyra Token Auditor: plugin de Figma que diseñé y programé para auditar 5 categorías de tokens (color, espaciado, tipografía, radio y sombra) en ambos modos de marca",
-        "Más de 40 páginas de documentación del sistema y de los procesos de diseño en Confluence"
-      ],
-      "tags": [
-        "Figma variables",
-        "Vue 3",
-        "React Native",
-        "Gobernanza"
-      ]
-    },
-    {
-      "title": "Mapa agéntico de Lyra",
-      "category": "IA aplicada al design system",
-      "year": "2026",
-      "cover": "assets/img/24 · Mapa agéntico@1x.webp",
-      "details": [
+        "assets/img/lyra-2.webp",
+        "assets/img/24 · Mapa agéntico@1x.webp",
         "assets/img/25 · Del repo al plugin@1x.webp",
         "assets/img/27 · Del pedido a la pantalla@1x.webp",
         "assets/img/26 · Cinco skills@1x.webp"
       ],
-      "summary": "Un repositorio que le da a la IA el contexto de Lyra: los 208 componentes mapeados, los tokens en una sola fuente y comandos para auditar, sincronizar con Figma, generar componentes y corregir valores escritos a mano en el código.",
+      "summary": "Lyra es el sistema de tokens y componentes que comparten los dos negocios de SKY, retail (pasajeros) y corporativo (empresas), en la web Vue 3 y la app React Native. Me encargo de mantenerlo, configurarlo y hacerlo crecer. En 2026 sumé el mapa agéntico: un repositorio que le da a la IA el contexto de Lyra para auditar, sincronizar con Figma y generar componentes.",
       "highlights": [
-        "Plugin agéntico lyra-ds con 5 skills que trabajan sobre los componentes y tokens de Lyra",
-        "Skill de iconografía que genera 19 variantes por ícono desde un solo boceto aprobado, usada en el brandlift de la marca",
-        "Crucé el mapa con los repos de producción: 228 componentes Vue 3 y 444 en React Native",
-        "Cobertura medida en tres ejes: 68 % web y 66 % app en componentes, 59 % y 70 % en tokens, 29 % en props"
+        "215 componentes en catálogo y 208 mapeados de Figma a código, con más de 40 páginas de documentación y gobernanza para retail (SKLY) y el canal B2B SKY Corporativo",
+        "Migración de la librería a Figma Variables (color, espaciado y radios), con una capa semántica de tokens y el tema del canal corporativo redefinido",
+        "Auditoría de design tokens sobre 35 bundles: 26 % de colores fuera de canon y 97 % de espaciados fuera de la escala de 8 pt, base del plan de normalización",
+        "Lyra Token Auditor: plugin de Figma que diseñé y programé para auditar color, espaciado, tipografía, radio y sombra en ambos modos de marca",
+        "Mapa agéntico: plugin lyra-ds con 5 skills, entre ellas una de iconografía que genera 19 variantes por ícono desde un solo boceto aprobado",
+        "Cruce con los repos de producción (228 componentes Vue 3 y 444 en React Native): cobertura de 68 % en web y 66 % en app"
       ],
       "tags": [
-        "Claude",
-        "Agentes",
-        "Figma MCP",
-        "Auditoría"
-      ]
-    },
-    {
-      "title": "SKY Airline Web",
-      "category": "UX/UI · Venta inicial web",
-      "year": "En paralelo a Lyra",
-      "cover": "assets/img/sky-airline-web.webp",
-      "details": [
-        "assets/img/sky-airline-web-asientos-adicionales.webp"
-      ],
-      "summary": "Mientras me dedicaba de lleno a Lyra, apoyé a los equipos en el diseño de las pantallas de la venta inicial de la web de SKY: el flujo de compra donde se eligen vuelo, tarifa, asientos y extras, armado con los componentes del sistema.",
-      "highlights": [
-        "Rediseño de los componentes y co-diseño de la pantalla y las lógicas de selección de asientos del booking flow: contribuyó a bajar su tasa de abandono en ~9 % interanual (Q3-25 → Q3-26) y a subir en +6,8 pp el avance de Asientos a Adicionales en desktop (53,0 % → 59,8 %, abril–octubre 2025 vs. 2026; todos los meses mejoraron)",
-        "Mapa de asientos en móvil: el encabezado se colapsa al hacer scroll y deja cerca de 108 px más para la grilla",
-        "Asientos y equipaje para clientes Platino: el beneficio se suma a la tarifa en vez de reemplazarla",
-        "Drawer de asiento Premier con una animación isométrica en Lottie que explica el espacio adicional",
-        "UX research continuo en web y app: test de usabilidad (Home App, check-in, cambio de reserva, equipaje y asientos, carrito y ancillaries), entrevistas, cognitive walkthrough, encuestas y benchmarks",
-        "Spikes técnicos de accesibilidad con lector de pantalla y especificaciones para desarrollo (OTP, landing Cabina Premier, banners promocionales)"
-      ],
-      "tags": [
-        "Booking flow",
-        "Selección de asientos",
-        "Ancillaries",
-        "Lyra"
-      ]
-    },
-    {
-      "title": "SKY Airline App",
-      "category": "UX/UI · App móvil",
-      "year": "Primera etapa en SKY",
-      "cover": "assets/img/sky-airline-app.webp",
-      "details": [
-        "assets/img/sky-airline-app-1.webp",
-        "assets/img/sky-airline-app-2.webp"
-      ],
-      "url": "https://www.behance.net/gallery/210750507/SKY-Airline-APP",
-      "summary": "App de SKY, aerolínea low cost con operaciones en Chile y Perú y vuelos a destinos nacionales e internacionales. Desde la app se buscan y compran vuelos, se revisa el estado del vuelo, se hace el check-in y se lleva la tarjeta de embarque en el teléfono.",
-      "highlights": [
-        "Tarjeta de embarque en la app y en Apple Wallet, y estado del vuelo en la pantalla de bloqueo",
-        "Animaciones Lottie para transiciones, estados de carga y momentos de marca en la app"
-      ],
-      "tags": [
-        "Figma",
-        "Mobile app",
-        "Check-in",
-        "Lottie"
+        "Figma variables",
+        "Gobernanza",
+        "Vue 3 · React Native",
+        "Agentes de IA"
       ]
     },
     {
@@ -155,6 +90,34 @@
         "LMS",
         "Gamificación",
         "Maze"
+      ]
+    },
+    {
+      "title": "SKY Airline · Web y app",
+      "category": "UX/UI · Flujo de compra",
+      "year": "App y web",
+      "cover": "assets/img/sky-airline-web.webp",
+      "details": [
+        "assets/img/sky-airline-web-asientos-adicionales.webp",
+        "assets/img/sky-airline-app.webp",
+        "assets/img/sky-airline-app-1.webp",
+        "assets/img/sky-airline-app-2.webp"
+      ],
+      "url": "https://www.behance.net/gallery/210750507/SKY-Airline-APP",
+      "summary": "SKY es una aerolínea low cost con operaciones en Chile y Perú. Primero diseñé en la app la compra, el estado del vuelo, el check-in y la tarjeta de embarque. Después, en paralelo a Lyra, apoyé a los equipos en las pantallas de la venta inicial de la web (vuelo, tarifa, asientos y extras), armadas con los componentes del sistema.",
+      "highlights": [
+        "Rediseño de los componentes y co-diseño de la pantalla y las lógicas de selección de asientos del booking flow: contribuyó a bajar su tasa de abandono en ~9 % interanual (Q3-25 → Q3-26) y a subir en +6,8 pp el avance de Asientos a Adicionales en desktop (53,0 % → 59,8 %, abril–octubre 2025 vs. 2026; todos los meses mejoraron)",
+        "Mapa de asientos en móvil: el encabezado se colapsa al hacer scroll y deja cerca de 108 px más para la grilla",
+        "Asientos y equipaje para clientes Platino: el beneficio se suma a la tarifa en vez de reemplazarla",
+        "Tarjeta de embarque en la app y en Apple Wallet, y estado del vuelo en la pantalla de bloqueo",
+        "Motion en Lottie: drawer de asiento Premier con una animación isométrica del espacio adicional, y transiciones y estados de carga en la app",
+        "UX research continuo en web y app (test de usabilidad, entrevistas, cognitive walkthrough, encuestas y benchmarks) y spikes de accesibilidad con lector de pantalla"
+      ],
+      "tags": [
+        "Booking flow",
+        "Selección de asientos",
+        "Mobile app",
+        "Lottie"
       ]
     },
     {
