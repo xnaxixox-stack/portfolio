@@ -109,6 +109,14 @@ window.PORTFOLIO_READY.then(({ profile, featured, projects }) => {
   // negativo) para que su final alcance a verse antes de que la siguiente la cubra.
   // El contenido viene del CMS, así que cualquier caso puede crecer.
   const placeCards = () => {
+    // Todas las tarjetas del apilado con la altura de la más alta: si una más baja
+    // cubre a una más alta, se asomaría el final de la de atrás.
+    const inners = cards.map((c) => c.querySelector(".card__inner"));
+    inners.forEach((el) => (el.style.minHeight = ""));
+    if (stackable()) {
+      const tallest = Math.max(...inners.map((el) => el.offsetHeight));
+      inners.forEach((el) => (el.style.minHeight = `${tallest}px`));
+    }
     cards.forEach((card, i) => {
       const base = 84 + i * 14;
       card.style.top = stackable() ? `${Math.min(base, innerHeight - card.offsetHeight - 16)}px` : "";
