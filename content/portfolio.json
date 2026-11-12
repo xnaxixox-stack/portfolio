@@ -43,7 +43,6 @@
       "highlights": [
         "215 componentes en catálogo y 208 mapeados de Figma a código, con documentación y gobernanza para retail (SKLY) y el canal B2B SKY Corporativo",
         "Migración de la librería a Figma Variables (color, espaciado y radios), con una capa semántica de tokens y el tema del canal corporativo redefinido",
-        "Con Desarrollo y QA cambiamos el criterio de certificación: ahora se revisa que se usen los tokens, no que la estructura sea idéntica a Figma",
         "Auditoría de design tokens sobre 35 bundles y más de 208 componentes: 26 % de colores fuera de canon y 97 % de espaciados fuera de la escala de 8 pt, base del plan de normalización",
         "Lyra Token Auditor: plugin de Figma que diseñé y programé para auditar 5 categorías de tokens (color, espaciado, tipografía, radio y sombra) en ambos modos de marca",
         "Más de 40 páginas de documentación del sistema y de los procesos de diseño en Confluence"
@@ -70,8 +69,7 @@
         "Plugin agéntico lyra-ds con 5 skills que trabajan sobre los componentes y tokens de Lyra",
         "Skill de iconografía que genera 19 variantes por ícono desde un solo boceto aprobado, usada en el brandlift de la marca",
         "Crucé el mapa con los repos de producción: 228 componentes Vue 3 y 444 en React Native",
-        "Cobertura medida en tres ejes: 68 % web y 66 % app en componentes, 59 % y 70 % en tokens, 29 % en props",
-        "8 colores que web y app definen por separado y que no existen como token"
+        "Cobertura medida en tres ejes: 68 % web y 66 % app en componentes, 59 % y 70 % en tokens, 29 % en props"
       ],
       "tags": [
         "Claude",
