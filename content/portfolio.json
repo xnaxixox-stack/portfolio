@@ -143,26 +143,36 @@
     },
     {
       "title": "Keyü",
-      "category": "UX/UI · App móvil · Freelance",
+      "category": "UX/UI · App iOS · Freelance",
       "client": "Keyü",
       "year": "2020",
-      "cover": "assets/img/keyu/08-programar-portada.webp",
+      "cover": "assets/img/keyu/cover.webp",
       "details": [
+        "assets/img/keyu/03-primer-contacto.webp",
+        "assets/img/keyu/06-descubrir.webp",
+        "assets/img/keyu/07-elegir-bien.webp",
         "assets/img/keyu/08-programar.webp",
+        "assets/img/keyu/09-checkout.webp",
+        "assets/img/keyu/10-post-compra.webp",
         "assets/img/keyu/11-despacho.webp",
+        "assets/img/keyu/05-recorrido.webp",
         "assets/img/keyu/02-contexto.webp",
-        "assets/img/keyu/05-recorrido.webp"
+        "assets/img/keyu/12-sistema-visual.webp"
       ],
       "url": "https://www.behance.net/gallery/257178359/Keyue-App",
-      "summary": "Keyü es una app de delivery de comida: instala refrigeradores inteligentes en oficinas, los llena con comida de comercios y cocineros caseros (los üChefs) y también despacha a domicilio. Diseñé la funcionalidad de pedidos programados de su app móvil: el flujo y las pantallas para agendar pedidos con un calendario.",
+      "summary": "Comida real, programada y sin desperdicio. Keyü instala refrigeradores inteligentes en oficinas, los llena con comida de comercios y cocineros caseros (los üChefs) y también despacha a domicilio. Diseñé su app iOS de punta a punta, del research a la UI.",
       "highlights": [
+        "Onboarding en cuatro pantallas: compra inteligente, envío gratis, programar cada día y el mapa de la zona de cobertura",
         "Calendario semanal arriba del menú: cada plato queda asociado a un día de retiro, así el carro puede tener los almuerzos de toda la semana",
-        "Despacho a domicilio programado: calendario mensual, entrega entre 17:00 y 22:00 y el carrito ordenado por día"
+        "Ficha de cada plato con macros, porción según objetivo (Normal, Fat burner o Athlete) y el precio total en el botón",
+        "Despacho a domicilio con calendario mensual, entrega entre 17:00 y 22:00 y el carrito ordenado por día",
+        "Checkout de cuatro pantallas sin formularios, con el saldo precargado como medio de pago por defecto",
+        "Calificación al recibir el pedido, que le da al comercio información directa sobre cada plato"
       ],
       "tags": [
-        "App móvil",
+        "iOS",
+        "E-commerce",
         "Pedidos programados",
-        "Calendario",
         "Freelance"
       ]
     }
