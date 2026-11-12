@@ -86,7 +86,7 @@
       "details": [],
       "summary": "Mientras me dedicaba de lleno a Lyra, apoyé a los equipos en el diseño de las pantallas de la venta inicial de la web de SKY: el flujo de compra donde se eligen vuelo, tarifa, asientos y extras, armado con los componentes del sistema.",
       "highlights": [
-        "Rediseño de los componentes y co-diseño de la pantalla y las lógicas de selección de asientos del booking flow: contribuyó a bajar su tasa de abandono en ~9 % interanual (Q3-25 → Q3-26) y a subir en +5,5 pp la conversión de ancillaries (ANC) a la siguiente etapa (17 de abril al 31 de octubre, 2026 vs. 2025)",
+        "Rediseño de los componentes y co-diseño de la pantalla y las lógicas de selección de asientos del booking flow: contribuyó a bajar su tasa de abandono en ~9 % interanual (Q3-25 → Q3-26) y a subir en +6,8 pp el avance de Asientos a Adicionales en desktop (53,0 % → 59,8 %, abril–octubre 2025 vs. 2026; todos los meses mejoraron)",
         "Mapa de asientos en móvil: el encabezado se colapsa al hacer scroll y deja cerca de 108 px más para la grilla",
         "Asientos y equipaje para clientes Platino: el beneficio se suma a la tarifa en vez de reemplazarla",
         "Drawer de asiento Premier con una animación isométrica en Lottie que explica el espacio adicional",
