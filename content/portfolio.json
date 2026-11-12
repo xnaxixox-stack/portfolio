@@ -83,7 +83,9 @@
       "category": "UX/UI · Venta inicial web",
       "year": "En paralelo a Lyra",
       "cover": "assets/img/sky-airline-web.webp",
-      "details": [],
+      "details": [
+        "assets/img/sky-airline-web-asientos-adicionales.webp"
+      ],
       "summary": "Mientras me dedicaba de lleno a Lyra, apoyé a los equipos en el diseño de las pantallas de la venta inicial de la web de SKY: el flujo de compra donde se eligen vuelo, tarifa, asientos y extras, armado con los componentes del sistema.",
       "highlights": [
         "Rediseño de los componentes y co-diseño de la pantalla y las lógicas de selección de asientos del booking flow: contribuyó a bajar su tasa de abandono en ~9 % interanual (Q3-25 → Q3-26) y a subir en +6,8 pp el avance de Asientos a Adicionales en desktop (53,0 % → 59,8 %, abril–octubre 2025 vs. 2026; todos los meses mejoraron)",
