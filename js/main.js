@@ -105,6 +105,19 @@ window.PORTFOLIO_READY.then(({ profile, featured, projects }) => {
   addEventListener("resize", updateStack);
   updateStack();
 
+  // Si una tarjeta es más alta que la pantalla, se fija más arriba (incluso con top
+  // negativo) para que su final alcance a verse antes de que la siguiente la cubra.
+  // El contenido viene del CMS, así que cualquier caso puede crecer.
+  const placeCards = () => {
+    cards.forEach((card, i) => {
+      const base = 84 + i * 14;
+      card.style.top = stackable() ? `${Math.min(base, innerHeight - card.offsetHeight - 16)}px` : "";
+    });
+  };
+  addEventListener("resize", placeCards);
+  if ("ResizeObserver" in window) new ResizeObserver(placeCards).observe(document.getElementById("featured"));
+  placeCards();
+
   // Más proyectos: lista con vista previa que sigue al cursor
   const list = document.getElementById("projects");
   list.innerHTML = projects

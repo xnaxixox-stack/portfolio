@@ -1,23 +1,25 @@
 {
   "profile": {
     "name": "Ignacio Grandón",
-    "role": "Diseñador UX/UI · Design Systems",
-    "location": "Chile",
+    "role": "Product Designer · Design Systems · UX/UI",
+    "location": "Santiago, Chile",
     "headline": "Diseño productos digitales y design systems.",
     "about": [
-      "Soy diseñador UX/UI en SKY Airline. Administro Lyra, su design system, y diseño flujos de compra para la venta a pasajeros y el canal corporativo.",
-      "Además de las pantallas, entrego la especificación técnica y prototipos funcionales. También programo herramientas para el sistema, como un plugin de Figma para auditar tokens y agentes de IA que trabajan con Lyra.",
-      "Antes diseñé la experiencia de Ninja Excel y Buk Capacitaciones, donde me encargué de la investigación con usuarios y del diseño de punta a punta. Vengo de la publicidad y el diseño gráfico (Duoc UC) y tengo un diplomado en Estrategias y Experiencias Digitales de la Universidad Católica."
+      "Soy Product Designer en SKY Airline, donde co-lidero el equipo UX y administro Lyra, su design system. Diseño el flujo de compra de la web y la app, para la venta a pasajeros y para el canal corporativo.",
+      "Llevo más de 6 años en producto digital y más de 10 en diseño. Además de las pantallas, entrego la especificación técnica, prototipos funcionales y herramientas para el sistema: un plugin de Figma que audita tokens y skills de IA que trabajan con Lyra.",
+      "Antes diseñé Ninja Excel y la plataforma de capacitación de Buk, con investigación con usuarios de punta a punta, y desde 2020 hago consultoría UX/UI independiente. Vengo de la publicidad y el diseño gráfico (Duoc UC) y tengo un diplomado en Estrategias y Experiencias Digitales desde el Diseño de la Pontificia Universidad Católica de Chile."
     ],
     "skills": [
       "Design systems",
-      "Tokens y modos de marca",
-      "Flujos de compra",
+      "Design tokens",
+      "Figma Variables",
       "UX research",
       "Test de usabilidad",
-      "Figma Plugin API",
-      "IA aplicada al diseño",
-      "Vue 3"
+      "Accesibilidad",
+      "Flujos de compra",
+      "Motion (Lottie)",
+      "Plugins de Figma",
+      "IA aplicada al diseño"
     ],
     "links": {
       "email": "hola@ignaciograndon.com",
@@ -29,7 +31,7 @@
     {
       "title": "Lyra Design System",
       "category": "Design system · SKY Airline",
-      "year": "Actual",
+      "year": "2023–Actual",
       "cover": "assets/img/10 · Dos modos en isométrico@1x-2.webp",
       "details": [
         "assets/img/21 · ANC · Anatomía de la familia anc-@1x.webp",
@@ -39,11 +41,12 @@
       ],
       "summary": "Lyra es el sistema de tokens y componentes que comparten los dos negocios de SKY, retail (pasajeros) y corporativo (empresas), en la web Vue 3 y la app React Native. Me encargo de mantenerlo, configurarlo y hacerlo crecer.",
       "highlights": [
-        "208 componentes en Figma, cerca de 3.000 variantes y 17 estilos tipográficos",
-        "Dos marcas sobre la misma base de tokens, con un modo de Figma para cada una",
+        "215 componentes en catálogo y 208 mapeados de Figma a código, con documentación y gobernanza para retail (SKLY) y el canal B2B SKY Corporativo",
+        "Migración de la librería a Figma Variables (color, espaciado y radios), con una capa semántica de tokens y el tema del canal corporativo redefinido",
         "Con Desarrollo y QA cambiamos el criterio de certificación: ahora se revisa que se usen los tokens, no que la estructura sea idéntica a Figma",
-        "Auditoría del kit de componentes: de 54 colores revisados, 14 no correspondían a un token",
-        "Lyra Token Auditor: plugin de Figma que diseñé y programé para revisar color, espaciado, tipografía, radios y sombras"
+        "Auditoría de design tokens sobre 35 bundles y más de 208 componentes: 26 % de colores fuera de canon y 97 % de espaciados fuera de la escala de 8 pt, base del plan de normalización",
+        "Lyra Token Auditor: plugin de Figma que diseñé y programé para auditar 5 categorías de tokens (color, espaciado, tipografía, radio y sombra) en ambos modos de marca",
+        "Más de 40 páginas de documentación del sistema y de los procesos de diseño en Confluence"
       ],
       "tags": [
         "Figma variables",
@@ -64,10 +67,11 @@
       ],
       "summary": "Un repositorio que le da a la IA el contexto de Lyra: los 208 componentes mapeados, los tokens en una sola fuente y comandos para auditar, sincronizar con Figma, generar componentes y corregir valores escritos a mano en el código.",
       "highlights": [
+        "Plugin agéntico lyra-ds con 5 skills que trabajan sobre los componentes y tokens de Lyra",
+        "Skill de iconografía que genera 19 variantes por ícono desde un solo boceto aprobado, usada en el brandlift de la marca",
         "Crucé el mapa con los repos de producción: 228 componentes Vue 3 y 444 en React Native",
         "Cobertura medida en tres ejes: 68 % web y 66 % app en componentes, 59 % y 70 % en tokens, 29 % en props",
-        "8 colores que web y app definen por separado y que no existen como token",
-        "Agentes para investigación UX de aerolíneas, benchmarking, legibilidad de íconos y diseño con los componentes de Lyra"
+        "8 colores que web y app definen por separado y que no existen como token"
       ],
       "tags": [
         "Claude",
@@ -79,7 +83,7 @@
     {
       "title": "SKY Airline App",
       "category": "UX/UI · App móvil y flujo de compra",
-      "year": "2024",
+      "year": "2023–Actual",
       "cover": "assets/img/sky-airline-app.webp",
       "details": [
         "assets/img/sky-airline-app-1.webp",
@@ -88,23 +92,27 @@
       "url": "https://www.behance.net/gallery/210750507/SKY-Airline-APP",
       "summary": "App de SKY, aerolínea low cost con operaciones en Chile y Perú y vuelos a destinos nacionales e internacionales. Desde la app se buscan y compran vuelos, se revisa el estado del vuelo, se hace el check-in y se lleva la tarjeta de embarque en el teléfono. En la web trabajo en el flujo de compra SKLY.",
       "highlights": [
+        "Rediseño de los componentes y co-diseño de la pantalla y las lógicas de selección de asientos del booking flow, que contribuyó a bajar su tasa de abandono en ~9 % interanual (Q3-25 → Q3-26)",
         "Rediseño de \"Revisa antes de pagar\": el precio total arriba y el desglose por pasajero",
         "Mapa de asientos en móvil: el encabezado se colapsa al hacer scroll y deja cerca de 108 px más para la grilla",
         "Asientos y equipaje para clientes Platino: el beneficio se suma a la tarifa en vez de reemplazarla",
-        "Drawer de asiento Premier con animación isométrica en Lottie",
+        "UX research continuo en web y app: test de usabilidad (Home App, check-in, cambio de reserva, equipaje y asientos, carrito y ancillaries), entrevistas, cognitive walkthrough, encuestas y benchmarks",
+        "Spikes técnicos de accesibilidad con lector de pantalla y especificaciones para desarrollo (OTP, landing Cabina Premier, banners promocionales)",
+        "Animaciones Lottie para transiciones, estados de carga y momentos de marca, como el drawer de asiento Premier en isométrico",
         "Tarjeta de embarque en la app y en Apple Wallet, y estado del vuelo en la pantalla de bloqueo"
       ],
       "tags": [
         "Figma",
         "Mobile app",
-        "Ancillaries",
+        "Booking flow",
+        "UX research",
         "Lottie"
       ]
     },
     {
       "title": "Ninja Excel by Buk",
-      "category": "UX/UI · Buk Capacitaciones",
-      "year": "2020–2022",
+      "category": "UX/UI · Edtech",
+      "year": "2020–2023",
       "cover": "assets/img/ninja-excel.webp",
       "details": [
         "assets/img/ninja-excel-1.webp",
@@ -138,7 +146,7 @@
       "title": "Keyü",
       "category": "UX/UI · App iOS · Freelance",
       "client": "Keyü",
-      "year": "2019",
+      "year": "2020",
       "cover": "assets/img/keyu/cover.webp",
       "details": [
         "assets/img/keyu/03-primer-contacto.webp",

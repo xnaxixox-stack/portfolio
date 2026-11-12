@@ -84,7 +84,7 @@
   const nodes = [];
   const links = [];
   const add = (n) => (nodes.push({ x: 0, y: 0, vx: 0, vy: 0, ...n }), nodes.length - 1);
-  const hub = add({ label: "Lyra", type: "hub", r: 14, info: "208 componentes · tokens en una sola fuente" });
+  const hub = add({ label: "Lyra", type: "hub", r: 14, info: "215 componentes, 208 mapeados a código · tokens en una sola fuente" });
   Object.entries(FAMILIES).forEach(([fam, comps]) => {
     const f = add({ label: fam, type: "family", r: 7, info: `Familia · ${comps.length} componentes en esta muestra` });
     links.push([hub, f, 90]);
