@@ -368,7 +368,7 @@
     return best;
   };
   const setTip = () => {
-    tip.textContent = hover >= 0 ? `${nodes[hover].label} — ${nodes[hover].info}` : "";
+    tip.textContent = hover >= 0 ? `${nodes[hover].label}: ${nodes[hover].info}` : "";
   };
   const local = (e) => {
     const r = canvas.getBoundingClientRect();

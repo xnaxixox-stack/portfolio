@@ -7,7 +7,7 @@ window.PORTFOLIO_READY.then(({ profile, featured, projects }) => {
   document.querySelectorAll("[data-bind]").forEach((el) => {
     el.textContent = profile[el.dataset.bind] ?? "";
   });
-  document.title = `${profile.name} — ${profile.role}`;
+  document.title = `${profile.name} · ${profile.role}`;
   document.getElementById("year").textContent = new Date().getFullYear();
 
   // Hora en Santiago, en vivo

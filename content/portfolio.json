@@ -31,8 +31,8 @@
     {
       "title": "Lyra Design System",
       "category": "Design system · IA aplicada",
-      "year": "2023–Actual",
-      "brief": "El design system que comparten la venta a pasajeros y el canal corporativo de SKY, en web y app. Lo mantengo, lo gobierno y le sumé IA.",
+      "year": "Desde 2023",
+      "brief": "El design system que comparten la venta a pasajeros y el canal corporativo de SKY, en web y app. Lo mantengo y lo gobierno, y en 2026 le armé un mapa para que la IA trabaje con él.",
       "cover": "assets/img/10 · Dos modos en isométrico@1x-2.webp",
       "details": [
         "assets/img/21 · ANC · Anatomía de la familia anc-@1x.webp",
@@ -63,7 +63,7 @@
     {
       "title": "Ninja Excel by Buk",
       "category": "UX/UI · Edtech",
-      "year": "2020–2023",
+      "year": "2020 a 2023",
       "brief": "Plataforma para aprender Excel dentro del mismo Excel. Diseñé el ambiente del estudiante y el del administrador, con research de punta a punta.",
       "cover": "assets/img/ninja-excel.webp",
       "details": [
@@ -109,7 +109,7 @@
       "url": "https://www.behance.net/gallery/210750507/SKY-Airline-APP",
       "summary": "SKY es una aerolínea low cost con operaciones en Chile y Perú. Primero diseñé en la app la compra, el estado del vuelo, el check-in y la tarjeta de embarque. Después, en paralelo a Lyra, apoyé a los equipos en las pantallas de la venta inicial de la web (vuelo, tarifa, asientos y extras), armadas con los componentes del sistema.",
       "highlights": [
-        "Rediseño de los componentes y co-diseño de la pantalla y las lógicas de selección de asientos del booking flow: contribuyó a bajar su tasa de abandono en ~9 % interanual (Q3-25 → Q3-26) y a subir en +6,8 pp el avance de Asientos a Adicionales en desktop (53,0 % → 59,8 %, abril–octubre 2025 vs. 2026; todos los meses mejoraron)",
+        "Rediseño de los componentes y co-diseño de la pantalla y las lógicas de selección de asientos del booking flow. Contribuyó a bajar cerca de un 9 % la tasa de abandono de ese paso (Q3 2025 vs. Q3 2026) y a subir el avance de Asientos a Adicionales en desktop de 53,0 % a 59,8 % (+6,8 pp, de abril a octubre, 2025 vs. 2026). Mejoraron todos los meses.",
         "Mapa de asientos en móvil: el encabezado se colapsa al hacer scroll y deja cerca de 108 px más para la grilla",
         "Asientos y equipaje para clientes Platino: el beneficio se suma a la tarifa en vez de reemplazarla",
         "Tarjeta de embarque en la app y en Apple Wallet, y estado del vuelo en la pantalla de bloqueo",
