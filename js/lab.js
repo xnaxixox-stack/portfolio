@@ -83,7 +83,10 @@
 
   const nodes = [];
   const links = [];
-  const add = (n) => (nodes.push({ x: 0, y: 0, vx: 0, vy: 0, ...n }), nodes.length - 1);
+  // q = cuánto empuja cada nodo a los demás: los componentes empujan poco para
+  // quedarse agrupados alrededor de su familia en vez de irse a los bordes.
+  const CHARGE = { hub: 1.2, family: 0.9, component: 0.35, agent: 0.8, command: 0.8 };
+  const add = (n) => (nodes.push({ x: 0, y: 0, vx: 0, vy: 0, ...n, q: CHARGE[n.type] }), nodes.length - 1);
   const hub = add({ label: "Lyra", type: "hub", r: 14, info: "215 componentes, 208 mapeados a código · tokens en una sola fuente" });
   Object.entries(FAMILIES).forEach(([fam, comps]) => {
     const f = add({ label: fam, type: "family", r: 7, info: `Familia · ${comps.length} componentes en esta muestra` });
@@ -151,16 +154,24 @@
   const readColors = () => {
     const cs = getComputedStyle(document.documentElement);
     ["--fg", "--muted", "--line", "--bg"].forEach((k) => (colors[k] = cs.getPropertyValue(k).trim()));
-    wake();
+    wake(0);
   };
 
   let hover = -1;
   let drag = -1;
   const mouse = { x: -999, y: -999 };
   let energy = 1;
+  // "Temperatura" que se enfría en cada cuadro: garantiza que el grafo se detenga
+  // aunque no encuentre un equilibrio perfecto (en pantallas chicas no lo hay).
+  let alpha = 1;
 
   const step = () => {
-    const k = 0.012;
+    const k = 0.03;
+    // Las fuerzas se escalan al tamaño del lienzo: en un celular el mismo empuje
+    // aprieta los nodos contra los bordes y los hace temblar.
+    const s = Math.min(1, Math.min(W, H) / 420);
+    const push = 180 * s * s * alpha;
+    const reach = (200 * s) ** 2;
     for (let i = 0; i < nodes.length; i++) {
       const a = nodes[i];
       for (let j = i + 1; j < nodes.length; j++) {
@@ -168,8 +179,8 @@
         let dx = a.x - b.x;
         let dy = a.y - b.y;
         let d2 = dx * dx + dy * dy || 0.01;
-        if (d2 > 40000) continue;
-        const f = 180 / d2;
+        if (d2 > reach) continue;
+        const f = (push * a.q * b.q) / d2;
         dx *= f;
         dy *= f;
         a.vx += dx;
@@ -185,7 +196,7 @@
       const dx = b.x - a.x;
       const dy = b.y - a.y;
       const d = Math.hypot(dx, dy) || 1;
-      const f = (d - len * Math.min(1, Math.min(W, H) / 420)) * k;
+      const f = (d - len * s) * k * alpha;
       const fx = (dx / d) * f;
       const fy = (dy / d) * f;
       a.vx += fx;
@@ -195,13 +206,26 @@
     });
     let total = 0;
     nodes.forEach((n, i) => {
-      // Centro y repulsión suave del cursor
+      if (i === drag) {
+        n.x = mouse.x;
+        n.y = mouse.y;
+        n.vx = n.vy = 0;
+        return;
+      }
+      // Lyra, los agentes y los comandos quedan fijos en su lugar del anillo:
+      // los demás nodos no los empujan (si se arrastran, vuelven a su sitio).
       if (n.ax !== undefined) {
-        n.vx += (n.ax - n.x) * 0.06;
-        n.vy += (n.ay - n.y) * 0.06;
-      } else {
-        n.vx += (W / 2 - n.x) * 0.004;
-        n.vy += (H / 2 - n.y) * 0.004;
+        n.vx = (n.ax - n.x) * 0.18;
+        n.vy = (n.ay - n.y) * 0.18;
+        n.x += n.vx;
+        n.y += n.vy;
+        total += Math.abs(n.vx) + Math.abs(n.vy);
+        return;
+      }
+      // Centro y repulsión suave del cursor
+      {
+        n.vx += (W / 2 - n.x) * 0.004 * alpha;
+        n.vy += (H / 2 - n.y) * 0.004 * alpha;
       }
       const mx = n.x - mouse.x;
       const my = n.y - mouse.y;
@@ -210,19 +234,14 @@
         n.vx += (mx / Math.sqrt(md || 1)) * 0.6;
         n.vy += (my / Math.sqrt(md || 1)) * 0.6;
       }
-      if (i === drag) {
-        n.x = mouse.x;
-        n.y = mouse.y;
-        n.vx = n.vy = 0;
-        return;
-      }
-      n.vx *= 0.82;
-      n.vy *= 0.82;
+      n.vx *= 0.78;
+      n.vy *= 0.78;
       n.x = Math.min(Math.max(n.x + n.vx, 12), W - 12);
       n.y = Math.min(Math.max(n.y + n.vy, 12), H - 12);
       total += Math.abs(n.vx) + Math.abs(n.vy);
     });
     energy = total / nodes.length;
+    alpha = Math.max(alpha * 0.99, 0.001);
   };
 
   const shape = (n, fill) => {
@@ -278,8 +297,13 @@
       const showLabel = !quiet || i === hover || (lit && lit.has(i) && hover !== hub) || near;
       if (showLabel && !dim) {
         ctx.fillStyle = n.type === "component" ? colors["--muted"] : colors["--fg"];
-        // En la mitad derecha la etiqueta va a la izquierda del nodo, para no salirse
-        const right = n.x > W * 0.62;
+        // Agentes y comandos rotulan hacia afuera del anillo (si no, dos vecinos
+        // encimaban sus etiquetas); el resto, a la izquierda en la mitad derecha.
+        // En ambos casos, si la etiqueta se sale del lienzo pasa al otro lado.
+        const tw = ctx.measureText(n.label).width;
+        let right = n.ax !== undefined && n.type !== "hub" ? n.x < W / 2 : n.x > W * 0.62;
+        if (right && n.x - n.r - 6 - tw < 2) right = false;
+        else if (!right && n.x + n.r + 6 + tw > W - 2) right = true;
         ctx.textAlign = right ? "right" : "left";
         ctx.fillText(n.label, right ? n.x - n.r - 6 : n.x + n.r + 6, n.y);
       }
@@ -289,7 +313,10 @@
 
   let raf = 0;
   let visible = true;
-  function wake() {
+  // heat: cuánto se "recalienta" el grafo (1 al cargar o cambiar de tamaño,
+  // menos al pasar el cursor, para que reaccione sin desarmarse)
+  function wake(heat = 1) {
+    alpha = Math.max(alpha, heat);
     // Con movimiento reducido no hay animación: se acomoda y se dibuja quieto
     if (reduce) {
       if (!W) return;
@@ -305,7 +332,7 @@
     step();
     render();
     // Se detiene cuando el grafo queda quieto, para no gastar batería
-    if (visible && (energy > 0.02 || drag >= 0)) raf = requestAnimationFrame(frame);
+    if (visible && ((alpha > 0.01 && energy > 0.02) || drag >= 0)) raf = requestAnimationFrame(frame);
   }
 
   const nodeAt = (x, y) => {
@@ -339,7 +366,7 @@
       }
     }
     canvas.style.cursor = hover >= 0 ? "grab" : "";
-    wake();
+    wake(0.3);
   });
   canvas.addEventListener("pointerdown", (e) => {
     const p = local(e);
@@ -349,11 +376,11 @@
       hover = drag;
       setTip();
     }
-    wake();
+    wake(0.4);
   });
   const release = () => {
     drag = -1;
-    wake();
+    wake(0.4);
   };
   canvas.addEventListener("pointerup", release);
   canvas.addEventListener("pointercancel", release);
@@ -363,13 +390,13 @@
       hover = -1;
       setTip();
     }
-    wake();
+    wake(0.3);
   });
 
   new ResizeObserver(resize).observe(canvas);
   new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
-    if (visible) wake();
+    if (visible) wake(0);
   }).observe(canvas);
   new MutationObserver(readColors).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", readColors);
@@ -377,7 +404,12 @@
   readColors();
   resize();
   seed();
-  // Con movimiento reducido se calcula el reposo de una vez y se dibuja quieto
-  if (reduce) for (let i = 0; i < 400; i++) step();
-  wake();
+  // Se acomoda antes del primer cuadro (temperatura fija), así no se ve el
+  // reacomodo inicial; luego se enfría y queda quieto.
+  for (let i = 0; i < (reduce ? 400 : 300); i++) {
+    alpha = 1;
+    step();
+  }
+  alpha = 0.15;
+  wake(0.15);
 })();
