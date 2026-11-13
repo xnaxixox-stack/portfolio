@@ -112,15 +112,23 @@
   let W = 0;
   let H = 0;
   const dpr = Math.min(devicePixelRatio || 1, 2);
+  let settled = false;
   const resize = () => {
     const r = canvas.getBoundingClientRect();
+    // El ResizeObserver avisa también al empezar a observar y en cambios mínimos:
+    // solo se reacomoda si el tamaño cambió de verdad (si no, el grafo se movía
+    // cada vez que entraba en pantalla).
+    const changed = Math.abs(r.width - W) > 1 || Math.abs(r.height - H) > 1;
     W = r.width;
     H = r.height;
-    if (outer) anchor();
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    wake();
+    if (changed && settled) {
+      anchor();
+      settle(120);
+    }
+    wake(0);
   };
   // Posición inicial en anillos, para que el primer cuadro ya se lea ordenado
   const anchor = () => {
@@ -241,7 +249,7 @@
       total += Math.abs(n.vx) + Math.abs(n.vy);
     });
     energy = total / nodes.length;
-    alpha = Math.max(alpha * 0.99, 0.001);
+    alpha = Math.max(alpha * 0.98, 0.001);
   };
 
   const shape = (n, fill) => {
@@ -310,6 +318,18 @@
     });
     ctx.globalAlpha = 1;
   };
+
+  // Acomoda el grafo de una vez, sin animación: primero a temperatura fija y
+  // luego enfriándose. Así aparece quieto y solo se mueve cuando lo tocan.
+  function settle(n) {
+    for (let i = 0; i < n; i++) {
+      alpha = 1;
+      step();
+    }
+    alpha = 0.15;
+    while (alpha > 0.01) step();
+    nodes.forEach((nd) => (nd.vx = nd.vy = 0));
+  }
 
   let raf = 0;
   let visible = true;
@@ -404,12 +424,7 @@
   readColors();
   resize();
   seed();
-  // Se acomoda antes del primer cuadro (temperatura fija), así no se ve el
-  // reacomodo inicial; luego se enfría y queda quieto.
-  for (let i = 0; i < (reduce ? 400 : 300); i++) {
-    alpha = 1;
-    step();
-  }
-  alpha = 0.15;
-  wake(0.15);
+  settle(reduce ? 400 : 300);
+  settled = true;
+  wake(0);
 })();
