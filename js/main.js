@@ -44,17 +44,22 @@ window.PORTFOLIO_READY.then(({ profile, featured, projects }) => {
           <div class="card__info">
             <p class="card__meta"><span>${pad(i + 1)}</span>${p.category} · ${p.year}</p>
             <h3 class="card__title">${p.title}</h3>
-            <p class="card__summary">${p.summary}</p>
-            <ul class="card__highlights">${p.highlights.map((h) => `<li>${h}</li>`).join("")}</ul>
+            <p class="card__summary">${p.brief || p.summary}</p>
+            <button class="card__more" type="button" data-case="${i}" data-magnetic>Ver caso completo <span aria-hidden="true">→</span></button>
             <div class="card__foot">
               <ul class="tags">${p.tags.map((t) => `<li>${t}</li>`).join("")}</ul>
-              ${p.url ? `<a class="card__link" href="${p.url}" target="_blank" rel="noopener" data-magnetic>Ver en Behance ↗</a>` : ""}
             </div>
           </div>
         </div>
       </article>`;
     })
     .join("");
+
+  // "Ver caso completo": abre la ficha con el resumen, los puntos clave y la galería
+  document.getElementById("featured").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-case]");
+    if (btn && window.PortfolioDialog) PortfolioDialog.open(featured[+btn.dataset.case], { list: featured });
+  });
 
   // Galería de cada tarjeta: clic (o Enter) avanza con una cortina
   document.querySelectorAll(".card__media").forEach((media) => {

@@ -79,6 +79,10 @@ content:
             label: Año
             type: string
             description: Texto libre, ej. 2024, 2020–2022 o Actual.
+          - name: brief
+            label: Descripción breve
+            type: text
+            description: Una o dos frases. Es lo único que se lee en la tarjeta; el resto se ve al abrir el caso.
           - name: cover
             label: Portada
             type: image
@@ -97,10 +101,12 @@ content:
           - name: summary
             label: Resumen
             type: text
+            description: Se ve al abrir el caso completo.
           - name: highlights
             label: Puntos clave
             type: text
             list: true
+            description: Se ven al abrir el caso completo.
           - name: tags
             label: Etiquetas
             type: string

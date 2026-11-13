@@ -1,5 +1,5 @@
 // Ficha de proyecto: un diálogo con resumen, puntos clave, galería y link a Behance.
-// La usa la lista de "Más proyectos" (js/main.js).
+// La usan los casos destacados ("Ver caso completo") y la lista de "Más proyectos" (js/main.js).
 // Uso: PortfolioDialog.open(proyecto, { list: proyectos })
 (function () {
   const css = `

@@ -32,6 +32,7 @@
       "title": "Lyra Design System",
       "category": "Design system · IA aplicada",
       "year": "2023–Actual",
+      "brief": "El design system que comparten la venta a pasajeros y el canal corporativo de SKY, en web y app. Lo mantengo, lo gobierno y le sumé IA.",
       "cover": "assets/img/10 · Dos modos en isométrico@1x-2.webp",
       "details": [
         "assets/img/21 · ANC · Anatomía de la familia anc-@1x.webp",
@@ -63,6 +64,7 @@
       "title": "Ninja Excel by Buk",
       "category": "UX/UI · Edtech",
       "year": "2020–2023",
+      "brief": "Plataforma para aprender Excel dentro del mismo Excel. Diseñé el ambiente del estudiante y el del administrador, con research de punta a punta.",
       "cover": "assets/img/ninja-excel.webp",
       "details": [
         "assets/img/ninja-excel-1.webp",
@@ -96,6 +98,7 @@
       "title": "SKY Airline · Web y app",
       "category": "UX/UI · Flujo de compra",
       "year": "App y web",
+      "brief": "Primero la app y después la venta web. El rediseño de la selección de asientos contribuyó a subir +6,8 pp el avance a Adicionales.",
       "cover": "assets/img/sky-airline-web.webp",
       "details": [
         "assets/img/sky-airline-web-asientos-adicionales.webp",
@@ -125,6 +128,7 @@
       "category": "UX/UI · App iOS · Freelance",
       "client": "Keyü",
       "year": "2020",
+      "brief": "App iOS de comida programada para oficinas y despacho a domicilio. La diseñé completa, del research a la UI.",
       "cover": "assets/img/keyu/cover.webp",
       "details": [
         "assets/img/keyu/03-primer-contacto.webp",
